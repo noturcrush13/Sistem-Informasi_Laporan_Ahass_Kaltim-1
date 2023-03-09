@@ -1,6 +1,6 @@
 import React from "react";
 
-import {Container, Row, Col} from "react-bootstrap";
+import {Container, Row, Col, Image} from "react-bootstrap";
 
 import "./style.css"
 
@@ -22,7 +22,7 @@ function Body() {
                     </Col>
                 </Col>
                 <Col md={6} className="image">
-                    <img src={LandingImage} alt="image" />
+                    <Image src={LandingImage}/>
                 </Col>
             </Row>
         </Container>
