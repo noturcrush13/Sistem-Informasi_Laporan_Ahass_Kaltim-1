@@ -4,10 +4,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import LandingPage from './pages/Landing-Page';
 
-function App() {
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import LoginPage from './pages/Login-Page';
+
+const App = () => {
   return (
     <>
-      <LandingPage />
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </Router>
     </>
   );
 }
