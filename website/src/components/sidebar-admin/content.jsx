@@ -1,0 +1,51 @@
+import React, {useState} from 'react';
+import {
+  CDBSidebar,
+  CDBSidebarHeader,
+  CDBSidebarMenuItem,
+  CDBSidebarContent,
+  CDBSidebarMenu,
+} from 'cdbreact';
+
+import DealerLogo from '../../assets/img/CardList.svg';
+
+import AstraLogo from '../../assets/img/Logo-Astra.png';
+
+import { Container, Image } from 'react-bootstrap';
+
+const Sidebar = () => {
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+        console.log("buka dropdown");
+    };
+
+    return (
+        <CDBSidebar textColor="#8B8C91" backgroundColor="#820000" style={{height:"100vh"}}>
+            <CDBSidebarHeader >
+            <div className="" style={{ display: 'flex', alignItems: 'center',}}>
+                <Image
+                src={AstraLogo}
+                alt=""
+                style={{ width: '30%' }}
+                />
+                <h4 className="" style={{color:"white"}}>Astra Motor</h4>
+            </div>
+            </CDBSidebarHeader>
+            <CDBSidebarContent>
+            <CDBSidebarMenu>
+                <CDBSidebarMenuItem icon="th-large">Dashboard</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="fa fa-file" onClick={toggleDropdown}>Laporan</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="chart-line">Rangking</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="fa fa-building">Dealer</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="fa fa-users">User</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="fa fa-user-circle">Admin</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="fa fa-times-circle">Logout</CDBSidebarMenuItem>
+            </CDBSidebarMenu>
+            </CDBSidebarContent>
+        </CDBSidebar>
+    )
+};
+
+export default Sidebar;

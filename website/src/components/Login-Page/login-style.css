@@ -9,9 +9,3 @@
     text-align: center;
     margin-top: 1em
 }
-
-.background-image {
-    background-image: url("../../assets/img/Background-Login.png");
-    background-size: cover;
-    background-position: center;
-}

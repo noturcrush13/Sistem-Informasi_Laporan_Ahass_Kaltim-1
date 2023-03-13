@@ -2,11 +2,13 @@ import './App.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import LandingPage from './pages/Landing-Page';
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import LandingPage from './pages/Landing-Page';
+
 import LoginPage from './pages/Login-Page';
+
+import DashboardPage from './pages/Dashboard';
 
 const App = () => {
   return (
@@ -15,6 +17,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
         </Routes>
       </Router>
     </>

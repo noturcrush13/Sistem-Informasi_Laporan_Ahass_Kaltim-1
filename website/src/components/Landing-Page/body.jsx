@@ -18,7 +18,7 @@ const Body = (props) => {
         <Container>
             <Row>
                 <Col md={6} className="content">
-                    <Col md={12} className="title">
+                    <Col md={12} className="title-landing">
                         <p>Sistem Informasi Laporan AHASS Kaltim 1</p>
                     </Col>
                     <Col md={11} className="description">
