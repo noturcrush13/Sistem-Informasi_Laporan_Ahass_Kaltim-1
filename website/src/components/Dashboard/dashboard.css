@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins");
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
+
+.dashboard-title{
+    font-family: 'rubik', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800 !important;
+    color: #820000;
+    margin-top: 5%;
+}
+
+.underline-tabs {
+    text-decoration: none;
+    color: black;
+    position: relative;
+    border: none;
+  }
+  
+  .underline-tabs.active:after {
+    content: "";
+    text-decoration: none;
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: black;
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    border-bottom:2px #820000;
+    
+  }
+  
