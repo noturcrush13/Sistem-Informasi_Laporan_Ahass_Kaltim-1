@@ -20,3 +20,8 @@
     background-color: white; /* change to your desired color */
   }
   
+.selected {
+   font-weight: bold;
+   color: black !important;
+   background-color: white;
+}

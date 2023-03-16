@@ -30,16 +30,13 @@ function SidebarAdmin() {
           <Image src={AstraLogo} style={{ width: "30%" }} /> Astra Motor
         </NavbarBrand>
         <Nav.Item>
-          <Nav.Link
-            as={NavLink}
+          <NavLink
             to="/dashboard"
-            className={`sidebar-text mt-3 nav-link pb-3 ${
-              location.pathname === "/dashboard" ? "active" : ""
-            }`}
+            className={({ active: location.pathname === "/dashboard" } ? "sidebar-text mt-3 nav-link pb-3 selected" : "sidebar-text mt-3 nav-link pb-3 nav-link")}
             style={{ marginLeft:"1.5rem"}}
           >
             <GridFill style={{ marginRight: "0.3rem" }} /> Dashboard
-          </Nav.Link>
+          </NavLink>
         </Nav.Item>
         <NavDropdown
           className="nav-link"
