@@ -1,8 +1,6 @@
 import React from "react";
 
-import {Container, Row, Col, Image, Link, FormSelect, FormControl, FormLabel, FormGroup, InputGroup, Button} from "react-bootstrap";
-
-import Form from "react-bootstrap/Form";
+import {Container, Row, Col, FormControl, FormLabel, FormGroup, InputGroup, Button} from "react-bootstrap";
 
 import SubTitleComponent from "../../Sub-Title/Sub-Title";
 
