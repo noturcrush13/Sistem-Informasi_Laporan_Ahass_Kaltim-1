@@ -12,6 +12,8 @@ import DashboardPage from './pages/Dashboard';
 
 import BuatLaporanAdminPage from './pages/Laporan/Buat-Laporan/Admin-view';
 
+import BuatLaporanUserPage from './pages/Laporan/Buat-Laporan/User-VIew';
+
 const App = () => {
   return (
     <>
