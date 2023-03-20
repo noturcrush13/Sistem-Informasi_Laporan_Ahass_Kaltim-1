@@ -10,6 +10,8 @@ import LoginPage from './pages/Login-Page';
 
 import DashboardPage from './pages/Dashboard';
 
+import BuatLaporanAdminPage from './pages/Laporan/Buat-Laporan/Admin-view';
+
 const App = () => {
   return (
     <>
@@ -18,6 +20,7 @@ const App = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/laporan/buat-laporan" element={<BuatLaporanAdminPage />} />
         </Routes>
       </Router>
     </>

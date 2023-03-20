@@ -33,7 +33,7 @@ function Content() {
                                         <Image src={Logo} className='mx-auto mb-3' style={{width:"50%", alignItems:"center"}}/>
                                         <MDBInput wrapperClass='mb-1 w-50 mx-auto' label={<p style={{fontFamily:"serif", fontSize:"14px"}}>Username</p>} id='form1' type='' size="lg"/>
                                         <MDBInput wrapperClass='mb-1 w-50 mx-auto' label={<p style={{fontFamily:"serif", fontSize:"14px"}}>Password</p>} id='form1' type='password' size="lg"/>
-                                        <Button className="sm mx-auto w-50 mb-5" style={{backgroundColor:"#820000"}} onClick={() => navigate("/dashboard")}>
+                                        <Button className="sm mx-auto w-100 mb-5" style={{backgroundColor:"#820000"}} onClick={() => navigate("/dashboard")}>
                                             Login
                                         </Button>
                                     </MDBCardBody>
