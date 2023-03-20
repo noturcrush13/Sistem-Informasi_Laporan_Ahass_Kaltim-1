@@ -4,9 +4,11 @@ import {Container, Row, Col, Image, Link} from "react-bootstrap";
 
 import { Bar } from 'react-chartjs-2';
 
-import { Chart } from "chart.js";
-
 import { CDBContainer } from 'cdbreact';
+
+import LineRechartComponent from "../Graph/bar-chart";
+
+import PieRechartComponent from "../Graph/pie-chart";
 
 import {
     MDBTabs,
@@ -30,22 +32,38 @@ function DashboardContent () {
         setActiveTab(value);
     }
 
-    const data = {
-        labels: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'],
-        datasets: [
-          {
-            label: 'My Data',
-            data: [12, 19, 3, 5, 2],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.6)',
-              'rgba(54, 162, 235, 0.6)',
-              'rgba(255, 206, 86, 0.6)',
-              'rgba(75, 192, 192, 0.6)',
-              'rgba(153, 102, 255, 0.6)'
-            ]
-          }
-        ]
-      }
+    const data = [
+        { name: "Jan", pv: 2400 },
+        { name: "Feb", pv: 1398 },
+        { name: "Mar", pv: 9800 },
+        { name: "Apr", pv: 3908 },
+        { name: "May", pv: 4800 },
+        { name: "Jun", pv: 3800 },
+        { name: "Jul", pv: 4300 },
+    ];
+
+    const pieData = [
+        {
+            "name": "Chrome",
+            "value": 68.85
+        },
+        {
+            "name": "Firefox",
+            "value": 7.91
+        },
+        {
+            "name": "Edge",
+            "value": 6.85
+        },
+        {
+            "name": "Internet Explorer",
+            "value": 6.14
+        },
+        {
+            "name": "Others",
+            "value": 10.25
+        }
+    ];
 
     
 
@@ -77,10 +95,14 @@ function DashboardContent () {
                 </MDBTabsItem>
             </MDBTabs>
             <MDBTabsContent>
-                <MDBTabsPane show={activeTab === 'tab1'}>Tambah graph disini</MDBTabsPane>
+                <MDBTabsPane show={activeTab === 'tab1'}>
+                    <LineRechartComponent data={data} />
+                </MDBTabsPane>
                 <MDBTabsPane show={activeTab === 'tab2'}>Tab 2 content</MDBTabsPane>
                 <MDBTabsPane show={activeTab === 'tab3'}>Tab 3 content</MDBTabsPane>
-                <MDBTabsPane show={activeTab === 'tab4'}>Tab 4 content</MDBTabsPane>
+                <MDBTabsPane show={activeTab === 'tab4'}>
+                    <PieRechartComponent data={pieData} />
+                </MDBTabsPane>
             </MDBTabsContent>
         </div>
     )
