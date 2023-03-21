@@ -5,11 +5,11 @@ import "./SubTitle.css";
 function SubTitleComponent ({ title, subtitle }) {
   return (
     <>
-        <Container className="">
-            <p className="title d-flex justify-content-start">{title}</p>
+        <div style={{paddingLeft:"1%"}}>
+            <p className="title">{title}</p>
             <p className="subtitle">{subtitle}</p>
             <hr className="underline-subtitle"/>
-        </Container>
+        </div>
     </>
   );
 }
