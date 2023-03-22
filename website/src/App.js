@@ -12,7 +12,8 @@ import DashboardPage from './pages/Dashboard';
 
 import BuatLaporanAdminPage from './pages/Laporan/Buat-Laporan/Admin-view';
 
-import BuatLaporanUserPage from './pages/Laporan/Buat-Laporan/User-VIew';
+import LaporanHarianAdminPage from './pages/Laporan/Laporan-Harian/Admin-view';
+
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/laporan/buat-laporan" element={<BuatLaporanAdminPage />} />
+          <Route path="/laporan/laporan-harian" element={<LaporanHarianAdminPage />} />
         </Routes>
       </Router>
     </>
