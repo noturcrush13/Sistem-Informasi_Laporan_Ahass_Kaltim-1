@@ -2,23 +2,23 @@ import React from "react";
 
 import {Container, Row, Col, Image, Link} from "react-bootstrap";
 
-import BuatLaporanAdmin from "../../../../components/Laporan/Buat-Laporan/admin";
+import LaporanHarianAdmin from "../../../../components/Laporan/Laporan-Harian/admin";
 
 import SidebarAdmin from "../../../../components/sidebar-admin/content";
 
-function BuatLaporanAdminPage () {
+function LaporanHarianAdminPage () {
     return (
         <div>
             <Row>
-                <Col md={2} style={{}}>
+                <Col md={2} style={{height:"100vh"}}>
                     <SidebarAdmin />
                 </Col>
                 <Col md={10}>
-                    <BuatLaporanAdmin />
+                    <LaporanHarianAdmin />
                 </Col>
             </Row>
         </div>
     )
 }
 
-export default BuatLaporanAdminPage;
+export default LaporanHarianAdminPage;
