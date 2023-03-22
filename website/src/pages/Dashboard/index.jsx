@@ -10,7 +10,7 @@ function DashboardPage () {
     return (
         <div>
             <Row>
-                <Col md={2} >
+                <Col md={2} style={{backgroundColor:"#820000", height:"100vh"}}>
                     <SidebarAdmin />
                 </Col>
                 <Col md={10}>

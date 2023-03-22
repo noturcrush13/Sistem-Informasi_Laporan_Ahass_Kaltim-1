@@ -69,9 +69,7 @@ function DashboardContent () {
 
     return (
         <div >
-            <Container>
-                <p className="dashboard-title">Dashboard</p>
-            </Container>
+            <p className="dashboard-title" style={{paddingLeft:"1%"}}>Dashboard</p>
             <MDBTabs className='mb-3 underline-tabs'>
                 <MDBTabsItem>
                     <MDBTabsLink onClick={() => handleBasicClick('tab1')} active={activeTab === 'tab1'}>
