@@ -14,6 +14,9 @@ import BuatLaporanAdminPage from './pages/Laporan/Buat-Laporan/Admin-view';
 
 import LaporanHarianAdminPage from './pages/Laporan/Laporan-Harian/Admin-view';
 
+import LaporanBulananAdminPage from './pages/Laporan/Laporan-Bulanan/Admin-view';
+
+
 
 const App = () => {
   return (
@@ -25,6 +28,7 @@ const App = () => {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/laporan/buat-laporan" element={<BuatLaporanAdminPage />} />
           <Route path="/laporan/laporan-harian" element={<LaporanHarianAdminPage />} />
+          <Route path="/laporan/laporan-bulanan" element={<LaporanBulananAdminPage />} />
         </Routes>
       </Router>
     </>

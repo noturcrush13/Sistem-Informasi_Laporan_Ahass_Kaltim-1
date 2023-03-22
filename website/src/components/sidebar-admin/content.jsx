@@ -67,7 +67,7 @@ function SidebarAdmin() {
         >
           <NavDropdown.Item eventKey="4.1" href="/laporan/buat-laporan">Buat Laporan</NavDropdown.Item>
           <NavDropdown.Item eventKey="4.2" href="/laporan/laporan-harian">Laporan Harian</NavDropdown.Item>
-          <NavDropdown.Item eventKey="4.3">Laporan Bulanan</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.3" href="/laporan/laporan-bulanan">Laporan Bulanan</NavDropdown.Item>
           <NavDropdown.Item eventKey="4.4">Laporan Tahunan</NavDropdown.Item>
         </NavDropdown>
         <NavDropdown

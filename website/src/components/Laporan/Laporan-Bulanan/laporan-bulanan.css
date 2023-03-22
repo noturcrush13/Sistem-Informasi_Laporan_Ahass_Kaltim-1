@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins");
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
+
+
+.button-bulanan {
+    width: 50rem;
+    text-decoration: none;
+    content: none;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    font-weight:bold;
+}
