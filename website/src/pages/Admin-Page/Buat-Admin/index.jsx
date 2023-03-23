@@ -1,6 +1,6 @@
 import React from "react";
 
-import {Container, Row, Col, Image, Link} from "react-bootstrap";
+import {Row, Col} from "react-bootstrap";
 
 import BuatAdmin from "../../../components/Admin/Buat-Admin/content";
 
