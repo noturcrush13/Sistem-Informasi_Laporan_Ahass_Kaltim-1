@@ -18,6 +18,9 @@ import LaporanBulananAdminPage from './pages/Laporan/Laporan-Bulanan/Admin-view'
 
 import LaporanTahunanAdminPage from './pages/Laporan/Laporan-Tahunan/Admin-view';
 
+import RankingBulananAdminPage from './pages/Ranking-Page/Ranking-Bulanan';
+
+import RankingTahunanAdminPage from './pages/Ranking-Page/Ranking-Tahunan';
 
 const App = () => {
   return (
@@ -31,6 +34,8 @@ const App = () => {
           <Route path="/laporan/laporan-harian" element={<LaporanHarianAdminPage />} />
           <Route path="/laporan/laporan-bulanan" element={<LaporanBulananAdminPage />} />
           <Route path="/laporan/laporan-tahunan" element={<LaporanTahunanAdminPage />} />
+          <Route path="/ranking/ranking-bulanan" element={<RankingBulananAdminPage />} />
+          <Route path="/ranking/ranking-tahunan" element={<RankingTahunanAdminPage />} />
         </Routes>
       </Router>
     </>
