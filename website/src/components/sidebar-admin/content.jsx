@@ -71,16 +71,17 @@ function SidebarAdmin() {
           <NavDropdown.Item eventKey="4.4" href="/laporan/laporan-tahunan">Laporan Tahunan</NavDropdown.Item>
         </NavDropdown>
         <NavDropdown
-          className="nav-link"
+           className={activeDropdown("/ranking")}
+           style={{ marginLeft:"1rem"}}
           title={
-            <span className="sidebar-text">
+            <span className={activeDropdown("/ranking")}>
               <BarChartFill style={{ marginRight: "0.3rem" }} /> Ranking
             </span>
           }
           id="nav-dropdown"
         >
-          <NavDropdown.Item eventKey="4.1">Ranking Bulanan</NavDropdown.Item>
-          <NavDropdown.Item eventKey="4.2">Ranking Tahunan</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.1" href="/ranking/ranking-bulanan">Ranking Bulanan</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.2" href="/ranking/ranking-tahunan">Ranking Tahunan</NavDropdown.Item>
         </NavDropdown>
         <NavDropdown
           className="nav-link"
