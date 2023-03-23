@@ -195,7 +195,7 @@ function BuatDealerAdmin () {
                 </Row>
                 <Row className="d-flex justify-content-center align-items-center mt-3">
                     <Col md={10}>
-                        <Button  className="button-dealer sm mx-auto w-100 mb-2" style={{backgroundColor:"#820000", border:"none"}}>Kumpul Laporan Harian</Button>
+                        <Button  className="button-dealer sm mx-auto w-100 mb-2" style={{backgroundColor:"#820000", border:"none"}}>Buat Dealer</Button>
                     </Col>
                 </Row>
             </Container>

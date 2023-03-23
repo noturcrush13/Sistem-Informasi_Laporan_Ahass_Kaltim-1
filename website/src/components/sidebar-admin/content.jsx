@@ -97,20 +97,29 @@ function SidebarAdmin() {
           <NavDropdown.Item eventKey="4.2" href="/dealer/daftar-dealer">Daftar Dealer</NavDropdown.Item>
         </NavDropdown>
         <NavDropdown
-          className="nav-link"
+          className={activeDropdown("/user")}
+          style={{ marginLeft:"1rem"}}
           title={
-            <span className="sidebar-text">
+            <span className={activeDropdown("/user")}>
               <PeopleFill style={{ marginRight: "0.3rem" }} /> User
             </span>
           }
           id="nav-dropdown"
         >
-          <NavDropdown.Item eventKey="4.1">Buat User</NavDropdown.Item>
-          <NavDropdown.Item eventKey="4.2">Daftar User</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.1" href="/user/buat-user">Buat User</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.2" href="/user/daftar-user">Daftar User</NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown className="nav-link" title={<span className="sidebar-text"><PersonFillGear style={{marginRight:"0.3rem"}}/> Admin</span>} id="nav-dropdown">
-              <NavDropdown.Item eventKey="4.1">Buat User</NavDropdown.Item>
-              <NavDropdown.Item eventKey="4.2">Daftar User</NavDropdown.Item>
+            <NavDropdown 
+            className={activeDropdown("/admin")}
+            style={{ marginLeft:"1rem"}} 
+            title={
+            <span className={activeDropdown("/admin")}>
+              <PersonFillGear style={{marginRight:"0.3rem"}}/> Admin
+              </span>} 
+              id="nav-dropdown"
+            >
+              <NavDropdown.Item eventKey="4.1" href="/admin/buat-admin">Buat Admin</NavDropdown.Item>
+              <NavDropdown.Item eventKey="4.2"href="/admin/daftar-admin">Daftar Admin</NavDropdown.Item>
             </NavDropdown>
             <Nav.Item>
               <Nav.Link as={NavLink} to="/login" className="sidebar-text py-3 nav-link" style={{ marginLeft:"1.5rem", marginBottom:'100%'}}>
