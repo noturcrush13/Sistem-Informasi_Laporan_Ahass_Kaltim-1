@@ -6,7 +6,7 @@
     font-family: 'rubik', sans-serif;
     font-size: 1rem;
     font-weight: 400;
-    color: white !important;
+    color: white ;
     text-decoration: none;
     content: none;
     margin-left: 0.5rem;
@@ -16,9 +16,14 @@
     content: none;
 }
 
-.nav-link:active {
-    background-color: white; /* change to your desired color */
-  }
+.dropdown-text {
+    font-family: 'rubik', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: white ;
+    text-decoration: none;
+    content: none;
+}
   
 .selected {
    font-weight: bold;

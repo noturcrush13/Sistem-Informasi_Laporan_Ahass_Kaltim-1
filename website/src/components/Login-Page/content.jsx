@@ -20,15 +20,15 @@ function Content() {
     return (
         <div className="">
             <Image src={Background} className="" style={{height:"100vh", width:"100vw"}} fluid/>
-            <Container fluid>
+            <Container className="mx-auto">
                 <Row style={{position:"absolute", top:"7%"}}>
-                    <Col md={12} className="title">
+                    <Col md={12} className="title-login">
                         <Container className="justify-content-center mx-auto">Sistem Informasi Laporan AHASS Kaltim 1</Container>
                     </Col>
                     <MDBContainer fluid>
                         <MDBRow className='d-flex justify-content-center align-items-center h-50'>
                             <MDBCol col='12'>
-                                <MDBCard className='my-5 mx-auto' style={{borderRadius: '1rem', width:"50%", backgroundColor:"#D2D2D2"}}>
+                                <MDBCard className='my-5 mx-auto' style={{borderRadius: '1rem', width:"60%", backgroundColor:"#D2D2D2"}}>
                                     <MDBCardBody className='p-5 w-100 d-flex flex-column'>
                                         <Image src={Logo} className='mx-auto mb-3' style={{width:"50%", alignItems:"center"}}/>
                                         <MDBInput wrapperClass='mb-1 w-50 mx-auto' label={<p style={{fontFamily:"serif", fontSize:"14px"}}>Username</p>} id='form1' type='' size="lg"/>

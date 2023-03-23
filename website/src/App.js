@@ -10,6 +10,15 @@ import LoginPage from './pages/Login-Page';
 
 import DashboardPage from './pages/Dashboard';
 
+import BuatLaporanAdminPage from './pages/Laporan/Buat-Laporan/Admin-view';
+
+import LaporanHarianAdminPage from './pages/Laporan/Laporan-Harian/Admin-view';
+
+import LaporanBulananAdminPage from './pages/Laporan/Laporan-Bulanan/Admin-view';
+
+import LaporanTahunanAdminPage from './pages/Laporan/Laporan-Tahunan/Admin-view';
+
+
 const App = () => {
   return (
     <>
@@ -18,6 +27,10 @@ const App = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/laporan/buat-laporan" element={<BuatLaporanAdminPage />} />
+          <Route path="/laporan/laporan-harian" element={<LaporanHarianAdminPage />} />
+          <Route path="/laporan/laporan-bulanan" element={<LaporanBulananAdminPage />} />
+          <Route path="/laporan/laporan-tahunan" element={<LaporanTahunanAdminPage />} />
         </Routes>
       </Router>
     </>

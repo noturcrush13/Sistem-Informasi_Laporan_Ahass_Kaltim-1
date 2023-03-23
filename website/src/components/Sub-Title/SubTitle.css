@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins");
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
+
+.title{
+    font-family: 'rubik', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800 !important;
+    color: #820000;
+    margin-top: 5%;
+}
+
+.subtitle{
+    font-family: 'rubik', sans-serif;
+    font-size: 1rem;
+    font-weight: 800 !important;
+    color: black;
+    margin-top: 2%;
+}
+
+.underline-subtitle{
+    width: 11.6rem;
+    background-color: #820000;
+    border: none;
+    height: 5px;
+    border-radius: 20px;
+    border: 2px solid #820000;
+}

@@ -2,11 +2,11 @@ import React from "react";
 
 import {Container, Row, Col, Image, Link} from "react-bootstrap";
 
-import DashboardContent from "../../components/Dashboard/content";
+import LaporanBulananAdmin from "../../../../components/Laporan/Laporan-Bulanan/admin";
 
-import SidebarAdmin from "../../components/sidebar-admin/content";
+import SidebarAdmin from "../../../../components/sidebar-admin/content";
 
-function DashboardPage () {
+function LaporanBulananAdminPage () {
     return (
         <div>
             <Row>
@@ -14,11 +14,11 @@ function DashboardPage () {
                     <SidebarAdmin />
                 </Col>
                 <Col md={10}>
-                    <DashboardContent />
+                    <LaporanBulananAdmin />
                 </Col>
             </Row>
         </div>
     )
 }
 
-export default DashboardPage;
+export default LaporanBulananAdminPage;
