@@ -84,16 +84,17 @@ function SidebarAdmin() {
           <NavDropdown.Item eventKey="4.2" href="/ranking/ranking-tahunan">Ranking Tahunan</NavDropdown.Item>
         </NavDropdown>
         <NavDropdown
-          className="nav-link"
+          className={activeDropdown("/dealer")}
+          style={{ marginLeft:"1rem"}}
           title={
-            <span className="sidebar-text">
+            <span className={activeDropdown("/dealer")}>
               <CardList style={{ marginRight: "0.3rem" }} /> Dealer
             </span>
           }
           id="nav-dropdown"
         >
-          <NavDropdown.Item eventKey="4.1">Buat Dealer</NavDropdown.Item>
-          <NavDropdown.Item eventKey="4.2">Daftar Dealer</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.1" href="/dealer/buat-dealer">Buat Dealer</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.2" href="/dealer/daftar-dealer">Daftar Dealer</NavDropdown.Item>
         </NavDropdown>
         <NavDropdown
           className="nav-link"

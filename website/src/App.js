@@ -22,6 +22,10 @@ import RankingBulananAdminPage from './pages/Ranking-Page/Ranking-Bulanan';
 
 import RankingTahunanAdminPage from './pages/Ranking-Page/Ranking-Tahunan';
 
+import BuatDealerAdminPage from './pages/Dealer/Buat-Dealer';
+
+import DaftarDealerAdminPage from './pages/Dealer/Daftar-Dealer';
+
 const App = () => {
   return (
     <>
@@ -36,6 +40,8 @@ const App = () => {
           <Route path="/laporan/laporan-tahunan" element={<LaporanTahunanAdminPage />} />
           <Route path="/ranking/ranking-bulanan" element={<RankingBulananAdminPage />} />
           <Route path="/ranking/ranking-tahunan" element={<RankingTahunanAdminPage />} />
+          <Route path="/dealer/buat-dealer" element={<BuatDealerAdminPage />} />
+          <Route path="/dealer/daftar-dealer" element={<DaftarDealerAdminPage />} />
         </Routes>
       </Router>
     </>
