@@ -33,13 +33,13 @@ function DashboardContent () {
     }
 
     const data = [
-        { name: "Jan", pv: 2400 },
-        { name: "Feb", pv: 1398 },
-        { name: "Mar", pv: 9800 },
-        { name: "Apr", pv: 3908 },
-        { name: "May", pv: 4800 },
-        { name: "Jun", pv: 3800 },
-        { name: "Jul", pv: 4300 },
+        { name: "Jan", ue: 2400 },
+        { name: "Feb", ue: 1398 },
+        { name: "Mar", ue: 9800 },
+        { name: "Apr", ue: 3908 },
+        { name: "May", ue: 4800 },
+        { name: "Jun", ue: 3800 },
+        { name: "Jul", ue: 4300 },
     ];
 
     const pieData = [
@@ -96,7 +96,9 @@ function DashboardContent () {
                 <MDBTabsPane show={activeTab === 'tab1'}>
                     <LineRechartComponent data={data} />
                 </MDBTabsPane>
-                <MDBTabsPane show={activeTab === 'tab2'}>Tab 2 content</MDBTabsPane>
+                <MDBTabsPane show={activeTab === 'tab2'}>
+                    <PieRechartComponent data={pieData} />
+                </MDBTabsPane>
                 <MDBTabsPane show={activeTab === 'tab3'}>Tab 3 content</MDBTabsPane>
                 <MDBTabsPane show={activeTab === 'tab4'}>
                     <PieRechartComponent data={pieData} />

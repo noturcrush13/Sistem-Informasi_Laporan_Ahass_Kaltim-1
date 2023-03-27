@@ -10,7 +10,7 @@ const LineRechart = ({ data }) => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
+                <Line type="monotone" dataKey="ue" stroke="#8884d8" activeDot={{ r: 8 }} />
             </LineChart>
         </ResponsiveContainer>
     );
