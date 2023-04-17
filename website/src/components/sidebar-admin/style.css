@@ -27,6 +27,7 @@
   
 .selected {
    font-weight: bold;
-   color: black !important;
+   color: #C71C15 !important;
    background-color: white;
+   border-radius: 1rem;
 }
