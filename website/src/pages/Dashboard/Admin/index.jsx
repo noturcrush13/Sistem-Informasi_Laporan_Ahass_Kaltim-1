@@ -2,9 +2,9 @@ import React from "react";
 
 import {Container, Row, Col, Image, Link} from "react-bootstrap";
 
-import DashboardContent from "../../components/Dashboard/content";
+import DashboardContent from "../../../components/Dashboard/content";
 
-import SidebarAdmin from "../../components/sidebar-admin/content";
+import SidebarAdmin from "../../../components/sidebar-admin/content";
 
 function DashboardPage () {
     return (

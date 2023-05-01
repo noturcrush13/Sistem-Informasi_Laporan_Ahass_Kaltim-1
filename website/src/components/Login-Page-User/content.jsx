@@ -34,10 +34,9 @@ function Content() {
         }
         else {
             alert("Selamat Datang " + username);
-            navigate("/admin/dashboard");
+            navigate("/user/dashboard");
         }
     }
-
     
     return (
         <div className="">

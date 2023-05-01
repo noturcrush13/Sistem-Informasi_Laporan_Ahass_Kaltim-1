@@ -4,14 +4,14 @@ import {Container, Row, Col, Image, Link} from "react-bootstrap";
 
 import BuatLaporanUser from "../../../../components/Laporan/Buat-Laporan/user";
 
-import SidebarAdmin from "../../../../components/sidebar-admin/content";
+import SidebarUser from "../../../../components/sidebar-user/content";
 
 function BuatLaporanUserPage () {
     return (
         <div>
             <Row>
                 <Col md={2} >
-                    <SidebarAdmin />
+                    <SidebarUser />
                 </Col>
                 <Col md={10}>
                     <BuatLaporanUser />

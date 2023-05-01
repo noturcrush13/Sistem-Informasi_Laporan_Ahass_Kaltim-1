@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins");
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
+
+.sidebar-text {
+    font-family: 'rubik', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: white ;
+    text-decoration: none;
+    content: none;
+    margin-left: 0.5rem;
+}
+
+.dropdown-toggle::after {
+    content: none;
+}
+
+.dropdown-text {
+    font-family: 'rubik', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: white ;
+    text-decoration: none;
+    content: none;
+}
+  
+.selected {
+   font-weight: bold;
+   color: #C71C15 !important;
+   background-color: white;
+   border-radius: 1rem;
+}
