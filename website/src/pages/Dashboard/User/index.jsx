@@ -2,11 +2,11 @@ import React from "react";
 
 import {Container, Row, Col, Image, Link} from "react-bootstrap";
 
-import LaporanBulananUser from "../../../../components/Laporan/Laporan-Bulanan/user";
+import DashboardContent from "../../../components/Dashboard/content";
 
-import SidebarUser from "../../../../components/sidebar-user/content";
+import SidebarUser from "../../../components/sidebar-user/content";
 
-function LaporanBulananUserPage () {
+function DashboardPageUser() {
     return (
         <div>
             <Row>
@@ -14,11 +14,11 @@ function LaporanBulananUserPage () {
                     <SidebarUser />
                 </Col>
                 <Col md={10}>
-                    <LaporanBulananUser />
+                    <DashboardContent />
                 </Col>
             </Row>
         </div>
     )
 }
 
-export default LaporanBulananUserPage;
+export default DashboardPageUser;

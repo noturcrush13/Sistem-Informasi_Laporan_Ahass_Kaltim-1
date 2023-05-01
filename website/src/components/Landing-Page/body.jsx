@@ -6,7 +6,7 @@ import "./style.css"
 
 import LandingImage from "../../assets/img/Landing-Page-Image.png";
 
-import LoginPage from "../../pages/Login-Page";
+import LoginPage from "../../pages/Login-Page/Admin";
 
 import { useNavigate } from "react-router-dom";
 
@@ -25,7 +25,8 @@ const Body = (props) => {
                         <p>Lorem ipsum dolor sit amet. Et repudiandae maiores eos assumenda iure ut distinctio expedita aut accusamus odio. Ut minus facilis eum voluptatum quia et tempora tenetur. Est facilis omnis sed quasi distinctio rem doloribus repellendus est voluptates iste.</p>
                     </Col>
                     <Col md={12} className="">
-                        <button onClick={() => navigate("/login")} className="btn btn-secondary button">Login</button>
+                        <button onClick={() => navigate("/admin/login")} className="btn btn-secondary button">Login Sebagai Admin</button>
+                        <button onClick={() => navigate("/user/login")} className="btn btn-secondary button" style={{color:"#820000", backgroundColor:"white", border:"1px solid #820000"}}>Login Sebagai User</button>
                     </Col>
                 </Col>
                 <Col md={6} className="image">

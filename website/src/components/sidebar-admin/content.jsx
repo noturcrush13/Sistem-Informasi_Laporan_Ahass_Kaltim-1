@@ -42,7 +42,7 @@ function SidebarAdmin() {
       >
         <div className="sidebar-sticky"></div>
         <NavbarBrand
-          href="/dashboard"
+          href="/admin/dashboard"
           style={{ fontSize: "1.3rem", fontWeight: "600", color: "white" }}
           className="ms-3"
         >
@@ -50,81 +50,81 @@ function SidebarAdmin() {
         </NavbarBrand>
         <Nav.Item>
           <NavLink
-            to="/dashboard"
-            className={active("/dashboard")}
+            to="/admin/dashboard"
+            className={active("/admin/dashboard")}
             style={{ marginLeft:"1.5rem"}}
           >
             <GridFill style={{ marginRight: "0.3rem" }} /> Dashboard
           </NavLink>
         </Nav.Item>
         <NavDropdown
-           className={activeDropdown("/laporan")}
+           className={activeDropdown("/admin/laporan")}
            style={{ marginLeft:"1.5rem"}}
           title={
-            <span className={activeDropdown("/laporan")} style={{ marginLeft:"0", alignItems:"start"}}>
+            <span className={activeDropdown("/admin/laporan")} style={{ marginLeft:"0", alignItems:"start"}}>
               <FileEarmarkFill style={{ marginRight: "0.3rem" }} /> Laporan
             </span>
           }
           id="nav-dropdown"
         >
-          <NavDropdown.Item eventKey="4.1" href="/laporan/buat-laporan">Buat Laporan</NavDropdown.Item>
-          <NavDropdown.Item eventKey="4.2" href="/laporan/laporan-harian">Laporan Harian</NavDropdown.Item>
-          <NavDropdown.Item eventKey="4.3" href="/laporan/laporan-bulanan">Laporan Bulanan</NavDropdown.Item>
-          <NavDropdown.Item eventKey="4.4" href="/laporan/laporan-tahunan">Laporan Tahunan</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.1" href="/admin/laporan/buat-laporan">Buat Laporan</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.2" href="/admin/laporan/laporan-harian">Laporan Harian</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.3" href="/admin/laporan/laporan-bulanan">Laporan Bulanan</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.4" href="/admin/laporan/laporan-tahunan">Laporan Tahunan</NavDropdown.Item>
         </NavDropdown>
         <NavDropdown
-           className={activeDropdown("/ranking")}
+           className={activeDropdown("/admin/ranking")}
            style={{ marginLeft:"1rem"}}
           title={
-            <span className={activeDropdown("/ranking")}>
+            <span className={activeDropdown("/admin/ranking")}>
               <BarChartFill style={{ marginRight: "0.3rem" }} /> Ranking
             </span>
           }
           id="nav-dropdown"
         >
-          <NavDropdown.Item eventKey="4.1" href="/ranking/ranking-bulanan">Ranking Bulanan</NavDropdown.Item>
-          <NavDropdown.Item eventKey="4.2" href="/ranking/ranking-tahunan">Ranking Tahunan</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.1" href="/admin/ranking/ranking-bulanan">Ranking Bulanan</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.2" href="/admin/ranking/ranking-tahunan">Ranking Tahunan</NavDropdown.Item>
         </NavDropdown>
         <NavDropdown
-          className={activeDropdown("/dealer")}
+          className={activeDropdown("/admin/dealer")}
           style={{ marginLeft:"1rem"}}
           title={
-            <span className={activeDropdown("/dealer")}>
+            <span className={activeDropdown("/admin/dealer")}>
               <CardList style={{ marginRight: "0.3rem" }} /> Dealer
             </span>
           }
           id="nav-dropdown"
         >
-          <NavDropdown.Item eventKey="4.1" href="/dealer/buat-dealer">Buat Dealer</NavDropdown.Item>
-          <NavDropdown.Item eventKey="4.2" href="/dealer/daftar-dealer">Daftar Dealer</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.1" href="/admin/dealer/buat-dealer">Buat Dealer</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.2" href="/admin/dealer/daftar-dealer">Daftar Dealer</NavDropdown.Item>
         </NavDropdown>
         <NavDropdown
-          className={activeDropdown("/user")}
+          className={activeDropdown("/admin/user")}
           style={{ marginLeft:"1rem"}}
           title={
-            <span className={activeDropdown("/user")}>
+            <span className={activeDropdown("/admin/user")}>
               <PeopleFill style={{ marginRight: "0.3rem" }} /> User
             </span>
           }
           id="nav-dropdown"
         >
-          <NavDropdown.Item eventKey="4.1" href="/user/buat-user">Buat User</NavDropdown.Item>
-          <NavDropdown.Item eventKey="4.2" href="/user/daftar-user">Daftar User</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.1" href="/admin/user/buat-user">Buat User</NavDropdown.Item>
+          <NavDropdown.Item eventKey="4.2" href="/admin/user/daftar-user">Daftar User</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown 
-            className={activeDropdown("/admin")}
+            className={activeDropdown("/admin/set-admin")}
             style={{ marginLeft:"1rem"}} 
             title={
-            <span className={activeDropdown("/admin")}>
+            <span className={activeDropdown("/admin/set-admin")}>
               <PersonFillGear style={{marginRight:"0.3rem"}}/> Admin
               </span>} 
               id="nav-dropdown"
             >
-              <NavDropdown.Item eventKey="4.1" href="/admin/buat-admin">Buat Admin</NavDropdown.Item>
-              <NavDropdown.Item eventKey="4.2"href="/admin/daftar-admin">Daftar Admin</NavDropdown.Item>
+              <NavDropdown.Item eventKey="4.1" href="/admin/set-admin/buat-admin">Buat Admin</NavDropdown.Item>
+              <NavDropdown.Item eventKey="4.2"href="/admin/set-admin/daftar-admin">Daftar Admin</NavDropdown.Item>
             </NavDropdown>
             <Nav.Item>
-              <Nav.Link as={NavLink} to="/login" className="sidebar-text py-3 nav-link" style={{ marginLeft:"1.5rem", marginBottom:'20%'}}>
+              <Nav.Link as={NavLink} to="/admin/login" className="sidebar-text py-3 nav-link" style={{ marginLeft:"1.5rem", marginBottom:'20%'}}>
                 <BoxArrowLeft style={{marginRight:"0.3rem"}}/> Logout
               </Nav.Link>
             </Nav.Item>
