@@ -3,6 +3,7 @@ const express = require("express");
 const AdminRoutes = require("./Admin");
 const DealerRoutes = require("./Dealer");
 const UserRoutes = require("./User");
+const LaporanRoutes = require("./Laporan");
 const auth = require("../middleware/auth");
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router.get("/ping", (res) => {
 router.use("/admin", AdminRoutes);
 router.use("/dealer", auth, DealerRoutes);
 router.use("/user", auth, UserRoutes);
+router.use("/laporan", auth, LaporanRoutes);
 
 module.exports = router

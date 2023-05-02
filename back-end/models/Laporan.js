@@ -103,4 +103,4 @@ const laporanSchema = new schema (
     }
 );
 
-module.exports = mongoose.model("laporan", laporanSchema);
+module.exports = mongoose.model("Laporan", laporanSchema);

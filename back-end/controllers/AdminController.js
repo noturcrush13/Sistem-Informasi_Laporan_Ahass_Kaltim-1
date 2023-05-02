@@ -65,6 +65,39 @@ class AdminController {
             res.status(500).json({error: {message: error.message}});
         }
     }
+
+    static async editAdminbyID(req, res){
+        try{
+            const {id} = req.params;
+            const {username, password} = req.body;
+            const admin = await Admin.findOneAndUpdate(
+                {_id: id},
+                {username: username, password: password},
+                {new: true}
+            );
+            res.status(200).json({
+                message: "berhasil mengubah data admin",
+                data: admin,
+            });
+        }
+        catch(error){
+            res.status(500).json({error: {message: error.message}});
+        }
+    }
+
+    static async deleteAdminbyID(req, res){
+        try{
+            const {id} = req.params;
+            const admin = await Admin.findOneAndDelete({_id: id});
+            res.status(200).json({
+                message: "berhasil menghapus data admin",
+                data: admin,
+            });
+        }
+        catch(error){
+            res.status(500).json({error: {message: error.message}});
+        }
+    }
 }
 
 getSignedToken = (admin) => {

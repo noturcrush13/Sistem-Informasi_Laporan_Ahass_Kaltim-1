@@ -64,6 +64,46 @@ class UserController {
             res.status(500).json({error: {message: error.message}});
         }
     }
+
+    static async getUserById(req, res){
+        try {
+            const user = await User.findById(req.params.id);
+            res.status(200).json(user);
+        } catch (error){
+            res.status(500).json({error: {message: error.message}});
+        }
+    }
+
+    static async editUserById(req, res){
+        try {
+            const {id} = req.params;
+            const {username, password, No_Ahass, nama_depan, nama_belakang} = req.body;
+            const user = await User.findOneAndUpdate(
+                {_id: id},
+                {username: username, password: password, No_Ahass: No_Ahass, nama_depan: nama_depan, nama_belakang: nama_belakang},
+                {new: true}
+            );
+            res.status(200).json({
+                message: "berhasil mengubah data user",
+                data: user,
+            });
+        } catch (error){
+            res.status(500).json({error: {message: error.message}});
+        }
+    }
+
+    static async deleteUserById(req, res){
+        try {
+            const {id} = req.params;
+            const user = await User.findByIdAndDelete(id);
+            res.status(200).json({
+                message: "berhasil menghapus data user",
+                data: user,
+            });
+        } catch (error){
+            res.status(500).json({error: {message: error.message}});
+        }
+    }
 }
 
 getSignedToken = (user) => {
