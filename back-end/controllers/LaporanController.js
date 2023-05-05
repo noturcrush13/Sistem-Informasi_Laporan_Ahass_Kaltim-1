@@ -55,6 +55,65 @@ class LaporanController {
         }
     }
 
+    static async getLaporanbyIdLaporanBulanan(req, res){
+        try{
+            const laporan = await Laporan.find({id_laporan_bulanan: req.params.id_laporan_bulanan});
+            res.status(200).json({
+                message: "berhasil mendapatkan laporan",
+                data: laporan,
+            });
+        }
+        catch (error){
+            res.status(500).json({error: {message: error.message}});
+        }
+    }
+
+    static async getLaporanTahunan(req, res){
+        try{
+            const laporan = await Laporan.find({id_dealer: req.params.id_dealer});
+            res.status(200).json({
+                message: "berhasil mendapatkan laporan",
+                data: laporan,
+            });
+        }
+        catch (error){
+            res.status(500).json({error: {message: error.message}});
+        }
+    }
+
+    static async getTotalPendapatanJasa(req, res){
+        try{
+            const laporan = await Laporan.find({id_dealer: req.params.id_dealer});
+            var total = 0;
+            for (var i = 0; i < laporan.length; i++){
+                total += parseInt(laporan[i].pendapatan_jasa);
+            }
+            res.status(200).json({
+                message: "berhasil mendapatkan laporan",
+                data: total,
+            });
+        }
+        catch (error){
+            res.status(500).json({error: {message: error.message}});
+        }
+    }
+
+    static async getTotalPenjualanPart(req, res){
+        try{
+            const laporan = await Laporan.find({id_dealer: req.params.id_dealer});
+            var total = 0;
+            for (var i = 0; i < laporan.length; i++){
+                total += parseInt(laporan[i].penjualan_part);
+            }
+            res.status(200).json({
+                message: "berhasil mendapatkan laporan",
+                data: total,
+            });
+        }
+        catch (error){
+            res.status(500).json({error: {message: error.message}});
+        }
+    }
     
 }
 
