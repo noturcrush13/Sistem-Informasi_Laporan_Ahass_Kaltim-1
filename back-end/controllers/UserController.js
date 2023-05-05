@@ -104,6 +104,8 @@ class UserController {
             res.status(500).json({error: {message: error.message}});
         }
     }
+
+
 }
 
 getSignedToken = (user) => {

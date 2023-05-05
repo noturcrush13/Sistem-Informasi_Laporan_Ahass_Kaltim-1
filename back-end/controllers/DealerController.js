@@ -73,6 +73,19 @@ class DealerController {
             res.status(500).json({error: {message: error.message}});
         }
     }
+
+    static async getDealerNoAHASS(req, res){
+        try {
+            const {No_Ahass} = req.params;
+            const dealer = await Dealer.find({No_Ahass: No_Ahass});
+            res.status(200).json({
+                message: "berhasil mendapatkan data dealer",
+                data: dealer,
+            });
+        } catch (error){
+            res.status(500).json({error: {message: error.message}});
+        }
+    }
 }
 
 module.exports = DealerController;

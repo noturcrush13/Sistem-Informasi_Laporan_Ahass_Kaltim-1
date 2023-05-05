@@ -37,7 +37,7 @@ class AdminController {
 
     static async registerAdmin(req, res){
         try {
-            const {username, password} = req.body;
+            const {username, password, nama_depan, nama_belakang} = req.body;
             const admin = await Admin.findOne({username: username});
             if(admin)
                 return res.status(403).json({
@@ -45,7 +45,7 @@ class AdminController {
                         message: "username sudah terdaftar",
                     },
                 });
-            const newAdmin = new Admin({username: username, password: password});
+            const newAdmin = new Admin({username: username, password: password, nama_depan: nama_depan, nama_belakang: nama_belakang});
             await newAdmin.save();
             res.status(201).json({
                 message: "register berhasil",

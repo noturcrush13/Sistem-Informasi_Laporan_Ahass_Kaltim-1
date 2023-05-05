@@ -131,6 +131,7 @@ function BuatDealerAdmin () {
     const [telepon, setTelepon] = useState("")
     const [gantikabupaten, setKabupaten] = useState([])
     const [gantikecamatan, setKecamatan] = useState([])
+    const token = localStorage.getItem("token")
 
 
     const handleChangeKabupaten = (e) => {
@@ -164,7 +165,7 @@ function BuatDealerAdmin () {
         const data = {
             "No_Ahass": noAhass,
             "Nama_Ahass": namaAhass,
-            "Alamat_Ahass": alamatAhass,
+            "Alamat": alamatAhass,
             "Telepon": telepon,
             "Kabupaten": gantikabupaten,
             "Kecamatan": gantikecamatan
@@ -172,7 +173,13 @@ function BuatDealerAdmin () {
         if (checkFormEmpty()) {
             alert("Data tidak boleh kosong")
         } else {
-            Axios.post("http://localhost:3001/dealer/create", data).then((response) => {
+            Axios.post("http://localhost:3001/dealer/create", data, 
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                }
+            },
+            ).then((response) => {
                 if(response.data.err){
                     alert(response.data.err)
                 }else{
