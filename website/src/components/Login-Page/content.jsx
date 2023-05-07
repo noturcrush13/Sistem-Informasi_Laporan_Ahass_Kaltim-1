@@ -35,10 +35,11 @@ function Content() {
                 password: password,
             }).then((response) => {
                 if(response.data.message){
-                    localStorage.setItem("token", response.data.token)
+                    localStorage.setItem("token", response.data.token);
+                    alert(response.data.token);
                     navigate("/admin/dashboard");
                 }else{
-                    alert(response.data);
+                    alert(response.data.message);
                 }
             });
         }

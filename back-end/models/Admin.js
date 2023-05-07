@@ -14,6 +14,14 @@ const adminSchema = new schema(
             type: String,
             required: true,
         },
+        nama_depan: {
+            type: String,
+            required: true,
+        },
+        nama_belakang: {
+            type: String,
+            required: true,
+        }
     },
         {
             timestamps: true,
