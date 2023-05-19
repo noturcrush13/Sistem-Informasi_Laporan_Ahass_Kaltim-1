@@ -8,6 +8,6 @@ router.get("/", DealerController.getDealer);
 router.get("/:id", DealerController.getDealerById);
 router.post("/edit/:id", DealerController.editDealerById);
 router.post("/delete/:id", DealerController.deleteDealerById)
-router.get("/getAHASS/", DealerController.getDealerNoAHASS)
+router.get("/getdealername/:No_Ahass", DealerController.getDealerNoAHASS)
 
 module.exports = router;

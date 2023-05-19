@@ -7,12 +7,20 @@ class DealerController {
     static async createDealer(req, res){
         const {No_Ahass, Nama_Ahass, Alamat, Telepon, Kabupaten, Kecamatan} = req.body;
         const newDealer = new Dealer({No_Ahass, Nama_Ahass, Alamat, Telepon, Kabupaten, Kecamatan});
+        const cek_dealer = await Dealer.findOne({No_Ahass: No_Ahass});
         try {
-            await newDealer.save();
-            res.status(200).json({
-                message: "berhasil menambahkan dealer baru",
-                data: newDealer,
-            });
+            if (cek_dealer) {
+                res.status(409).json({
+                    message: "Dealer dengan No_Ahass tersebut sudah ada",
+                });
+            }
+            else {
+                await newDealer.save();
+                res.status(200).json({
+                    message: "berhasil menambahkan dealer baru",
+                    data: newDealer,
+                });
+            }
         }
         catch (error){
             res.status(500).json({error: {message: error.message}});
@@ -83,6 +91,7 @@ class DealerController {
                 data: dealer,
             });
         } catch (error){
+            console.log('error:', error);
             res.status(500).json({error: {message: error.message}});
         }
     }

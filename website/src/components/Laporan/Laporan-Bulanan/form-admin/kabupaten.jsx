@@ -11,24 +11,32 @@ function LaporanBulananKabupatenAdmin () {
     const kabupaten = [
         {
             "no_kabupaten": "1",
-            "nama_kabupaten": "Kabupaten 1"
+            "nama_kabupaten": "Balikpapan"
         },
         {
             "no_kabupaten": "2",
-            "nama_kabupaten": "Kabupaten 2"
+            "nama_kabupaten": "Penajam Paser Utara"
         },
         {
             "no_kabupaten": "3",
-            "nama_kabupaten": "Kabupaten 3"
+            "nama_kabupaten": "Paser"
         },
         {
             "no_kabupaten": "4",
-            "nama_kabupaten": "Kabupaten 4"
+            "nama_kabupaten": "Berau"
         },
         {
-            "no_kabupaten": "3",
-            "nama_kabupaten": "Kabupaten 5"
+            "no_kabupaten": "5",
+            "nama_kabupaten": "Bulungan"
         },
+        {
+            "no_kabupaten": "6",
+            "nama_kabupaten": "Tarakan"
+        },
+        {
+            "no_kabupaten": "7",
+            "nama_kabupaten": "Nunukan"
+        }
     ]
 
     const bulan = [

@@ -88,6 +88,14 @@ const laporanSchema = new schema (
             type : String,
             required : true,
         },
+        ue_by_engine_flush :{
+            type : String,
+            required : true,
+        },
+        ue_by_injector_cleaner : {
+            type : String,
+            required : true,
+        },
         pendapatan_jasa : {
             type : String,
             required : true,

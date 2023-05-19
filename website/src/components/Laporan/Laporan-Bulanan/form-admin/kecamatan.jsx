@@ -11,114 +11,106 @@ function LaporanBulananKecamatanAdmin () {
     const kabupaten = [
         {
             "no_kabupaten": "1",
-            "nama_kabupaten": "Kabupaten 1",
+            "nama_kabupaten": "Balikpapan",
             "kecamatan": [
                 {
                     "no_kecamatan": "1",
-                    "nama_kecamatan": "Kecamatan 1"
+                    "nama_kecamatan": "Balikpapan Tengah"
                 },
                 {
                     "no_kecamatan": "2",
-                    "nama_kecamatan": "Kecamatan 2"
+                    "nama_kecamatan": "Balikpapan Kota"
                 },
                 {
                     "no_kecamatan": "3",
-                    "nama_kecamatan": "Kecamatan 3"
+                    "nama_kecamatan": "Balikpapan Barat"
                 },
                 {
                     "no_kecamatan": "4",
-                    "nama_kecamatan": "Kecamatan 4"
+                    "nama_kecamatan": "Balikpapan Timur"
                 },
+                {
+                    "no_kecamatan": "5",
+                    "nama_kecamatan": "Balikpapan Selatan"
+                },
+                {
+                    "no_kecamatan": "6",
+                    "nama_kecamatan": "Balikpapan Utara"
+                }
             ]
         },
         {
             "no_kabupaten": "2",
-            "nama_kabupaten": "Kabupaten 2",
+            "nama_kabupaten": "Penajam Paser Utara",
             "kecamatan": [
                 {
-                    "no_kecamatan": "5",
-                    "nama_kecamatan": "Kecamatan 5"
-                },
-                {
-                    "no_kecamatan": "6",
-                    "nama_kecamatan": "Kecamatan 6"
-                },
-                {
                     "no_kecamatan": "7",
-                    "nama_kecamatan": "Kecamatan 7"
+                    "nama_kecamatan": "Penajam"
                 },
                 {
                     "no_kecamatan": "8",
-                    "nama_kecamatan": "Kecamatan 8"
+                    "nama_kecamatan": "Sepaku"
                 },
             ]
         },
         {
             "no_kabupaten": "3",
-            "nama_kabupaten": "Kabupaten 3",
+            "nama_kabupaten": "Paser",
             "kecamatan": [
                 {
                     "no_kecamatan": "9",
-                    "nama_kecamatan": "Kecamatan 9"
+                    "nama_kecamatan": "Tanah Grogot"
                 },
                 {
                     "no_kecamatan": "10",
-                    "nama_kecamatan": "Kecamatan 10"
-                },
-                {
-                    "no_kecamatan": "11",
-                    "nama_kecamatan": "Kecamatan 11"
-                },
-                {
-                    "no_kecamatan": "12",
-                    "nama_kecamatan": "Kecamatan 12"
+                    "nama_kecamatan": "Long Ikis"
                 },
             ]
         },
         {
             "no_kabupaten": "4",
-            "nama_kabupaten": "Kabupaten 4",
+            "nama_kabupaten": "Berau",
             "kecamatan": [
                 {
-                    "no_kecamatan": "13",
-                    "nama_kecamatan": "Kecamatan 13"
-                },
-                {
-                    "no_kecamatan": "14",
-                    "nama_kecamatan": "Kecamatan 14"
-                },
-                {
-                    "no_kecamatan": "15",
-                    "nama_kecamatan": "Kecamatan 15"
-                },
-                {
-                    "no_kecamatan": "16",
-                    "nama_kecamatan": "Kecamatan 16"
+                    "no_kecamatan": "11",
+                    "nama_kecamatan": "Tanjung Redeb"
                 },
             ]
         },
         {
             "no_kabupaten": "5",
-            "nama_kabupaten": "Kabupaten 5",
+            "nama_kabupaten": "Bulungan",
             "kecamatan": [
                 {
-                    "no_kecamatan": "17",
-                    "nama_kecamatan": "Kecamatan 17"
-                },
-                {
-                    "no_kecamatan": "18",
-                    "nama_kecamatan": "Kecamatan 18"
-                },
-                {
-                    "no_kecamatan": "19",
-                    "nama_kecamatan": "Kecamatan 19"
-                },
-                {
-                    "no_kecamatan": "20",
-                    "nama_kecamatan": "Kecamatan 20"
+                    "no_kecamatan": "12",
+                    "nama_kecamatan": "Tanjung Selor"
                 },
             ]
         },
+        {
+            "no_kabupaten": "6",
+            "nama_kabupaten": "Tarakan",
+            "kecamatan": [
+                {
+                    "no_kecamatan": "13",
+                    "nama_kecamatan": "Tarakan Tengah"
+                },
+                {
+                    "no_kecamatan": "14",
+                    "nama_kecamatan": "Tarakan Barat"
+                }
+            ]
+        },
+        {
+            "no_kabupaten": "7",
+            "nama_kabupaten": "Nunukan",
+            "kecamatan": [
+                {
+                    "no_kecamatan": "15",
+                    "nama_kecamatan": "Nunukan"
+                },
+            ]
+        }
     ]
 
 

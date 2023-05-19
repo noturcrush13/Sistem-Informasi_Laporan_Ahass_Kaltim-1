@@ -17,8 +17,11 @@ import BuatLaporanUserPage from './pages/Laporan/Buat-Laporan/User-VIew';
 
 import LaporanHarianAdminPage from './pages/Laporan/Laporan-Harian/Admin-view';
 import LaporanHarianUserPage from './pages/Laporan/Laporan-Harian/User-view';
+import LaporanHarianHasilAdminPage from './pages/Laporan/Laporan-Harian/Admin-view/hasil-data';
 
 import LaporanBulananAdminPage from './pages/Laporan/Laporan-Bulanan/Admin-view';
+import LaporanBulananNoAHASSAdminPage from './pages/Laporan/Laporan-Bulanan/Admin-view/hasil_noAhass';
+import LaporanBulananBulanAdminPage from './pages/Laporan/Laporan-Bulanan/Admin-view/hasil_bulan';
 import LaporanBulananUserPage from './pages/Laporan/Laporan-Bulanan/User-view';
 
 import LaporanTahunanAdminPage from './pages/Laporan/Laporan-Tahunan/Admin-view';
@@ -57,9 +60,12 @@ const App = () => {
           <Route path="/user/laporan/buat-laporan" element={<BuatLaporanUserPage />} />
 
           <Route path="/admin/laporan/laporan-harian" element={<LaporanHarianAdminPage />} />
+          <Route path="/admin/laporan/laporan-harian/hasil-data" element={<LaporanHarianHasilAdminPage />} />
           <Route path="/user/laporan/laporan-harian" element={<LaporanHarianUserPage />} />
 
           <Route path="/admin/laporan/laporan-bulanan" element={<LaporanBulananAdminPage />} />
+          <Route path="/admin/laporan/laporan-bulanan/no-ahass/hasil-data/" element={<LaporanBulananNoAHASSAdminPage />} />
+          <Route path="/admin/laporan/laporan-bulanan/bulan/hasil-data/" element={<LaporanBulananBulanAdminPage />} />
           <Route path="/user/laporan/laporan-bulanan" element={<LaporanBulananUserPage />} />
 
           <Route path="/admin/laporan/laporan-tahunan" element={<LaporanTahunanAdminPage />} />

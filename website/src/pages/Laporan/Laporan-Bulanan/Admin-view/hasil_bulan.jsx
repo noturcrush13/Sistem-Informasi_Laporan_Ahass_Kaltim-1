@@ -2,11 +2,11 @@ import React from "react";
 
 import {Container, Row, Col, Image, Link} from "react-bootstrap";
 
-import DaftarDealerAdmin from "../../../components/Dealer/Daftar-Dealer/content";
+import TampilLaporanBulananBulanAdmin from "../../../../components/Laporan/Laporan-Bulanan/tampil_laporan/laporan_admin_bulan";
 
-import SidebarAdmin from "../../../components/sidebar-admin/content";
+import SidebarAdmin from "../../../../components/sidebar-admin/content";
 
-function DaftarDealerAdminPage () {
+function LaporanBulananBulanAdminPage () {
     return (
         <div>
             <Row>
@@ -14,11 +14,11 @@ function DaftarDealerAdminPage () {
                     <SidebarAdmin />
                 </Col>
                 <Col md={10}>
-                    <DaftarDealerAdmin />
+                    <TampilLaporanBulananBulanAdmin />
                 </Col>
             </Row>
         </div>
     )
 }
 
-export default DaftarDealerAdminPage;
+export default LaporanBulananBulanAdminPage;
