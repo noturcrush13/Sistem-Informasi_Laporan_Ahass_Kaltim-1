@@ -10,5 +10,18 @@ router.get("/:id", LaporanController.getLaporanById);
 router.post("/delete/:id", LaporanController.deleteLaporan);
 router.get("/getlaporanbulanan/:id_dealer/:bulan/:tahun", LaporanController.getLaporanBulanan);
 router.get("/getalllaporanbulanan/:bulan/:tahun", LaporanController.getAllLaporanBulananbyBulan);
+router.get("/getrekaplaporanbulanan/:bulan/:tahun", LaporanController.getAllLaporanBulananPerDealer);
+router.get("/getrekaplaporanbulanankabupaten/:bulan/:tahun/:kabupaten", LaporanController.getAllLaporanBulananPerDealerbyKabupaten);
+router.get("/getrekaplaporanbulanankecamatan/:bulan/:tahun/:kecamatan", LaporanController.getAllLaporanBulananPerDealerbyKecamatan);
+router.get("/getlaporantahunan/:id_dealer/:tahun", LaporanController.getAllLaporanTahunan);
+router.get("/getrekaplaporantahunan/:tahun", LaporanController.getAllLaporanTahunanbyTahun);
+router.get("/getrekaplaporantahunankabupaten/:tahun/:kabupaten", LaporanController.getAllLaporanTahunanbyKabupaten);
+router.get("/getrekaplaporantahunankecamatan/:tahun/:kecamatan", LaporanController.getAllLaporanTahunanPerDealerbyKecamatan);
+router.get("/rankingbulananbybulan/:bulan/:tahun", LaporanController.RankingBulanananbyBulan);
+router.get("/rankingbulananbykabupaten/:bulan/:tahun/:kabupaten", LaporanController.RankingBulananByKabupaten);
+router.get("/rankingbulananbykecamatan/:bulan/:tahun/:kecamatan", LaporanController.RankingBulananByKecamatan);
+router.get("/rankingtahunanbytahun/:tahun", LaporanController.RankingTahunanByTahun);
+router.get("/rankingtahunanbykabupaten/:tahun/:kabupaten", LaporanController.RankingTahunanByKabupaten);
+router.get("/rankingtahunanbykecamatan/:tahun/:kecamatan", LaporanController.RankingTahunanByKecamatan);
 
 module.exports = router;

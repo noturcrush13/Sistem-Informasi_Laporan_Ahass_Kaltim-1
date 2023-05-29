@@ -95,6 +95,20 @@ class DealerController {
             res.status(500).json({error: {message: error.message}});
         }
     }
+
+    static async getDealerKabupaten(req, res){
+        try {
+            const {Kabupaten} = req.params;
+            const dealer = await Dealer.find({Kabupaten: Kabupaten});
+            res.status(200).json({
+                message: "berhasil mendapatkan data dealer",
+                data: dealer,
+            });
+        } catch (error){
+            console.log('error:', error);
+            res.status(500).json({error: {message: error.message}});
+        }
+    }
 }
 
 module.exports = DealerController;

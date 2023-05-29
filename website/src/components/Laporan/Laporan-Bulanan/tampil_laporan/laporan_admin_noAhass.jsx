@@ -86,13 +86,90 @@ function TampilLaporanBulananNoAHASSAdmin(){
     return (
         <div >
             <SubTitleComponent title="Laporan" subtitle="Laporan Bulanan"/>
-            <Row>
+            {/* <Row>
                 <Container>
                     <h3 className="title-laporan-bulanan">Unit Entry</h3>
                 </Container>
                 <LineRechartComponent data={data} />
-            </Row>
-
+            </Row> */}
+            <MDBTable>
+                <MDBTableHead>
+                    <tr>
+                        <th scope='col'>No</th>
+                        <th scope='col'>AHASS Info</th>
+                        <th scope='col'>Unit Info I</th>
+                        <th scope='col'>Unit Info II</th>
+                        <th scope='col'>Dibuat Pada</th>
+                        <th scope='col'>Opsi</th>
+                    </tr>
+                </MDBTableHead>
+                <MDBTableBody>
+                    {laporan.map((item, index) => {
+                        // const namaDealer = await convertIdDealerToNamaDealer(item.id_dealer);
+                        // console.log(namaDealer);
+                        return (
+                            <tr>
+                                <th scope="row">
+                                    {index + 1}
+                                </th>
+                                <td>
+                                    No Dealer : {item.id_dealer}
+                                    <br/>
+                                    {/* Nama Dealer : {namaDealer} */}
+                                    <br/>
+                                </td>
+                                <td>
+                                    Mekanik : {item.total_mekanik}
+                                    <br/>
+                                    Unit Entry : {item.unit_entry}
+                                    <br/>
+                                    KPB 1 : {item.KPB_1}
+                                    <br/>
+                                    KPB 2 : {item.KPB_2}
+                                    <br/>
+                                    KPB 3 : {item.KPB_3}
+                                    <br/>
+                                    KPB 4 : {item.KPB_4}
+                                    <br/>
+                                    Claim : {item.claim}
+                                    <br/>
+                                    Service Lengkap : {item.service_lengkap}
+                                    <br/>
+                                    Service Ringan : {item.service_ringan}
+                                    <br/>
+                                    UE by Engine Flush : {item.ue_by_engine_flush}
+                                </td>
+                                <td>
+                                    Ganti Oli : {item.ganti_oli}    
+                                    <br/>
+                                    Light Repair : {item.light_repair}
+                                    <br/>
+                                    Heavy Repair : {item.heavy_repair}
+                                    <br/>
+                                    Job Return : {item.job_return}
+                                    <br/>
+                                    Other Job : {item.other_job}
+                                    <br/>
+                                    Jumlah UE By Service Visit : {item.jumlah_ue_by_service_visit}
+                                    <br/>
+                                    Jumlah UE By Pit Express : {item.jumlah_ue_by_pit_express}
+                                    <br/>
+                                    UE By Reminder : {item.ue_by_reminder}
+                                    <br/>
+                                    UE By AHASS Event : {item.ue_by_ahass_event}
+                                    <br/>
+                                    UE By Injector Cleaner : {item.ue_by_injector_cleaner}
+                                </td>
+                                <td>{item.tanggal}</td>
+                                <td>
+                                    <MDBBtn className="me-2" color='primary' size='sm'>Edit</MDBBtn>
+                                    <MDBBtn color='danger' size='sm'>Hapus</MDBBtn>
+                                </td>
+                            </tr>
+                        )
+                    })}
+                </MDBTableBody>
+            </MDBTable>
         </div>
     )           
 }

@@ -10,6 +10,7 @@ import SubTitleComponent from "../../../Sub-Title/Sub-Title";
 
 import "../laporan-bulanan.css";
 
+
 function TampilLaporanBulananBulanAdmin(){
 
     const useQuery = () => {
@@ -27,34 +28,67 @@ function TampilLaporanBulananBulanAdmin(){
     const dataBulan = searchParams.get('dataBulan');
     const dataTahun = searchParams.get('dataTahun');
     
+    const [dealer, setDealer] = useState([])
+    
     const [laporan, setLaporan] = useState([]);
+
+    const [laporanFinal, setLaporanFinal] = useState([])
 
     const token = localStorage.getItem("token");
 
-    const convertIdDealerToNamaDealer = async(id_dealer) => {
-        const response = await Axios.get(`http://localhost:3001/dealer/getdealername/${id_dealer}`, {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          }
-        });
-      
-        // Tambahkan log untuk debugging
-        // console.log(response.data.data[0].Nama_Ahass);
-        return response.data.data[0].Nama_Ahass;
-      }
+    const convertIdDealerToNamaDealer = async (idDealer) => {
+        try {
+          const response = await Axios.get(
+            `http://localhost:3001/dealer/getdealername/${idDealer}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          return response.data.data[0].Nama_Ahass;
+        } catch (error) {
+          console.error(error);
+          throw new Error('Failed to convert ID dealer to dealer name.');
+        }
+    };
+    
 
     useEffect(() => {
-        Axios.get(`http://localhost:3001/laporan/getalllaporanbulanan/${dataBulan}/${dataTahun}`, {
-            headers: {
-                "Authorization": `Bearer ${token}`,
-            }
-        }).then((response) => {
-            setLaporan(response.data.data);
-            console.log(response.data.data);
+        Axios.get(`http://localhost:3001/laporan/getrekaplaporanbulanan/${dataBulan}/${dataTahun}`, {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
         })
-    }, [])
+          .then((response) => {
+            const laporanData = response.data.data;
+            const updatedLaporan = laporanData.map(async (item) => {
+              const namaDealer = await convertIdDealerToNamaDealer(item.id_dealer);
+              return {
+                ...item,
+                namaDealer: namaDealer,
+              };
+            });
+      
+            Promise.all(updatedLaporan)
+              .then((updatedLaporanWithDealerName) => {
+                setLaporan(updatedLaporanWithDealerName);
+              })
+              .catch((error) => {
+                console.error('Failed to update laporan with dealer name', error);
+              });
+          })
+          .catch((error) => {
+            console.error('Failed to fetch laporan data', error);
+          });
+      }, []);
+      
 
-    // console.log(laporan);
+    
+
+    console.log("ini awal", laporan);
+    // console.log("ini laporan", dealer);
+    // setLaporanFinal(totalDataDalamSebulan);
 
 
     return (
@@ -67,24 +101,18 @@ function TampilLaporanBulananBulanAdmin(){
                         <th scope='col'>AHASS Info</th>
                         <th scope='col'>Unit Info I</th>
                         <th scope='col'>Unit Info II</th>
-                        <th scope='col'>Dibuat Pada</th>
                         <th scope='col'>Opsi</th>
                     </tr>
                 </MDBTableHead>
                 <MDBTableBody>
-                    {laporan.map((item, index) => {
-                        // const namaDealer = await convertIdDealerToNamaDealer(item.id_dealer);
-                        // console.log(namaDealer);
+                {laporan.map((item, index) => {
                         return (
                             <tr>
-                                <th scope="row">
-                                    {index + 1}
-                                </th>
-                                <td>
+                                <th scope='row'>{index + 1}</th>
+                                <td style={{}}>
                                     No Dealer : {item.id_dealer}
                                     <br/>
-                                    {/* Nama Dealer : {namaDealer} */}
-                                    <br/>
+                                    Nama Dealer : {item.namaDealer}
                                 </td>
                                 <td>
                                     Mekanik : {item.total_mekanik}
@@ -104,6 +132,8 @@ function TampilLaporanBulananBulanAdmin(){
                                     Service Lengkap : {item.service_lengkap}
                                     <br/>
                                     Service Ringan : {item.service_ringan}
+                                    <br/>
+                                    UE by Engine Flush : {item.ue_by_engine_flush}
                                 </td>
                                 <td>
                                     Ganti Oli : {item.ganti_oli}    
@@ -123,9 +153,10 @@ function TampilLaporanBulananBulanAdmin(){
                                     UE By Reminder : {item.ue_by_reminder}
                                     <br/>
                                     UE By AHASS Event : {item.ue_by_ahass_event}
+                                    <br/>
+                                    UE By Injector Cleaner : {item.ue_by_injector_cleaner}
                                 </td>
-                                <td>{item.tanggal}</td>
-                                <td>
+                                <td class>
                                     <MDBBtn className="me-2" color='primary' size='sm'>Edit</MDBBtn>
                                     <MDBBtn color='danger' size='sm'>Hapus</MDBBtn>
                                 </td>
@@ -134,6 +165,7 @@ function TampilLaporanBulananBulanAdmin(){
                     })}
                 </MDBTableBody>
             </MDBTable>
+
         </div>
     )           
 }

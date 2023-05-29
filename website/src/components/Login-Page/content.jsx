@@ -36,7 +36,7 @@ function Content() {
             }).then((response) => {
                 if(response.data.message){
                     localStorage.setItem("token", response.data.token);
-                    alert(response.data.token);
+                    alert("Login Berhasil");
                     navigate("/admin/dashboard");
                 }else{
                     alert(response.data.message);

@@ -102,6 +102,8 @@ function TampilLaporanHarianAdmin(){
                                     Service Lengkap : {item.service_lengkap}
                                     <br/>
                                     Service Ringan : {item.service_ringan}
+                                    <br/>
+                                    UE by Engine Flush : {item.ue_by_engine_flush}
                                 </td>
                                 <td>
                                     Ganti Oli : {item.ganti_oli}    
@@ -121,6 +123,8 @@ function TampilLaporanHarianAdmin(){
                                     UE By Reminder : {item.ue_by_reminder}
                                     <br/>
                                     UE By AHASS Event : {item.ue_by_ahass_event}
+                                    <br/>
+                                    UE By Injector Cleaner : {item.ue_by_injector_cleaner}
                                 </td>
                                 <td>{item.tanggal}</td>
                                 <td>
