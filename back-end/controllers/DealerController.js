@@ -54,11 +54,10 @@ class DealerController {
     static async editDealerById(req, res){
         try {
             const {id} = req.params;
-            const {No_Ahass, Nama_Ahass, Alamat, Telepon, Kabupaten, Kecamatan} = req.body;
+            const {Nama_Ahass, Alamat, Telepon, Kabupaten, Kecamatan} = req.body;
             const dealer = await Dealer.findOneAndUpdate(
                 {_id: id},
-                {No_Ahass, Nama_Ahass, Alamat, Telepon, Kabupaten, Kecamatan},
-                {new: true}
+                {Nama_Ahass, Alamat, Telepon, Kabupaten, Kecamatan},
             );
             res.status(200).json({
                 message: "berhasil mengubah data dealer",

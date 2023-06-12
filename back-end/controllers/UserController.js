@@ -29,6 +29,7 @@ class UserController {
                 message: "login berhasil",
                 token: token,
                 username: user.username,
+                No_Ahass: user.No_Ahass,
             });
         } catch (error){
             res.status(500).json({error: {message: error.message}});
@@ -68,7 +69,10 @@ class UserController {
     static async getUserById(req, res){
         try {
             const user = await User.findById(req.params.id);
-            res.status(200).json(user);
+            //decrypted password
+            res.status(200).json(
+                user
+            );
         } catch (error){
             res.status(500).json({error: {message: error.message}});
         }
@@ -77,10 +81,11 @@ class UserController {
     static async editUserById(req, res){
         try {
             const {id} = req.params;
-            const {username, password, No_Ahass, nama_depan, nama_belakang} = req.body;
+            const {username, password, nama_depan, nama_belakang} = req.body;
+            const hashedPassword = await bcrypt.hash(password, 10);
             const user = await User.findOneAndUpdate(
                 {_id: id},
-                {username: username, password: password, No_Ahass: No_Ahass, nama_depan: nama_depan, nama_belakang: nama_belakang},
+                {username: username, password: hashedPassword , nama_depan: nama_depan, nama_belakang: nama_belakang},
                 {new: true}
             );
             res.status(200).json({

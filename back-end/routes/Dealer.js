@@ -7,7 +7,7 @@ router.post("/create", DealerController.createDealer);
 router.get("/", DealerController.getDealer);
 router.get("/:id", DealerController.getDealerById);
 router.post("/edit/:id", DealerController.editDealerById);
-router.post("/delete/:id", DealerController.deleteDealerById)
+router.delete("/delete/:id", DealerController.deleteDealerById)
 router.get("/getdealername/:No_Ahass", DealerController.getDealerNoAHASS)
 
 module.exports = router;

@@ -5,8 +5,13 @@ import {Container, Row, Col, Image, Link, FormSelect, FormControl, FormLabel, Fo
 import Form from "react-bootstrap/Form";
 
 import "../laporan-bulanan.css";
+import Axios from "axios";
 
 function LaporanBulananKecamatanAdmin () {
+
+    const [dataBulan, setDataBulan] = useState("");
+    const [dataTahun, setDataTahun] = useState("");
+    const [dataKecamatan, setDataKecamatan] = useState("");
 
     const kabupaten = [
         {
@@ -186,6 +191,20 @@ function LaporanBulananKecamatanAdmin () {
 
     const [gantikabupaten, setKabupaten] = useState([])
 
+    const token = localStorage.getItem('token')
+
+    const autofill_tahun = (e) => {
+        setDataTahun(e.target.value)
+    }
+
+    const autofill_bulan = (e) => {
+        setDataBulan(e.target.value)
+    }
+
+    const autofill_kecamatan = (e) => {
+        setDataKecamatan(e.target.value)
+    }
+
     const handleChangeKabupaten = (e) => {
         setKabupaten(e.target.value)
     }
@@ -198,6 +217,33 @@ function LaporanBulananKecamatanAdmin () {
             }
         }
         return kecamatan
+    }
+
+    const isEmpty = (e) => {
+        if (dataBulan === "" || dataTahun === "" || dataKecamatan === "") {
+            alert("Data tidak boleh kosong")
+            return false
+        }
+        return true
+    }
+
+    const handleSubmit = (e) => {
+        if(isEmpty(e)){
+            Axios.get(`http://localhost:3001/laporan/getrekaplaporanbulanankecamatan/${dataBulan}/${dataTahun}/${dataKecamatan}`, {
+                headers: {
+                   "Authorization": `Bearer ${token}`
+                }
+            }).then(response => {
+                if(response.data['data'].length === 0) {
+                    alert("Data Tidak Ditemukan!")
+                }
+                else {
+                    alert("Data Ditemukan!")
+                }
+            })
+            const query = `dataBulan=${dataBulan}&dataTahun=${dataTahun}&dataKecamatan=${dataKecamatan}`
+            window.location.href = `/admin/laporan/laporan-bulanan/kecamatan/hasil-data/?` + query
+        }
     }
 
     return (
@@ -217,10 +263,10 @@ function LaporanBulananKecamatanAdmin () {
                 <Row className="d-flex justify-content-center align-items-center my-2">
                     <Col md={12} className="">
                         <FormLabel>Kecamatan*</FormLabel>
-                        <FormSelect >
+                        <FormSelect onChange={autofill_kecamatan}>
                             <option>Pilih Kecamatan</option>
                             { fillKecamatan().map(kecamatan => (
-                                <option value={kecamatan.no_kecamatan} >{kecamatan.nama_kecamatan}</option>
+                                <option value={kecamatan.nama_kecamatan} >{kecamatan.nama_kecamatan}</option>
                             ))}
                         </FormSelect>
                     </Col>
@@ -228,7 +274,7 @@ function LaporanBulananKecamatanAdmin () {
                 <Row className="d-flex justify-content-center align-items-center my-2">
                     <Col md={12} className="">
                         <FormLabel>Bulan*</FormLabel>
-                        <FormSelect >
+                        <FormSelect onChange={autofill_bulan}>
                             <option>Pilih Bulan</option>    
                             { bulan.map(bulan => (
                                 <option value={bulan.no_bulan} >{bulan.nama_bulan}</option>
@@ -239,7 +285,7 @@ function LaporanBulananKecamatanAdmin () {
                 <Row className="d-flex justify-content-center align-items-center my-2">
                     <Col md={12} className="">
                         <FormLabel>Tahun*</FormLabel>
-                        <FormSelect >
+                        <FormSelect onChange={autofill_tahun}>
                             <option>Pilih Tahun</option>    
                             { tahun.map(tahun => (
                                 <option value={tahun.no_tahun} >{tahun.nama_tahun}</option>
@@ -249,7 +295,10 @@ function LaporanBulananKecamatanAdmin () {
                 </Row>
                 <Row className="d-flex justify-content-center align-items-center mt-3">
                     <Col md={10}>
-                        <Button  className="button-harian sm mx-auto w-100 mb-2" style={{backgroundColor:"#820000", border:"none"}}>Cari Data</Button>
+                        <Button onClick={handleSubmit} 
+                        className="button-harian sm mx-auto w-100 mb-2" 
+                        style={{backgroundColor:"#820000", border:"none"}}
+                        >Cari Data</Button>
                     </Col>
                 </Row>
             </Container>

@@ -18,7 +18,7 @@ router.get("/ping", (res) => {
 
 router.use("/admin", AdminRoutes);
 router.use("/dealer", auth, DealerRoutes);
-router.use("/user", auth, UserRoutes);
+router.use("/user", UserRoutes);
 router.use("/laporan", auth, LaporanRoutes);
 
 module.exports = router

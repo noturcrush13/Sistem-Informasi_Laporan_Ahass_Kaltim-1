@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
 import Background from "../../assets/img/Background-Login.png";
 import {Container, Row, Col, Image, Button} from "react-bootstrap";
 import {
@@ -33,8 +34,20 @@ function Content() {
             alert("Username tidak boleh kosong!");
         }
         else {
-            alert("Selamat Datang " + username);
-            navigate("/user/dashboard");
+            Axios.post("https://9296-2001-448a-6000-9bd-31d5-c2a3-b2c2-a839.ngrok-free.app/user/login", {
+                username: username,
+                password: password,
+            }).then((response) => {
+                if (response.data.message) {
+                    localStorage.setItem("token", response.data.token);
+                    localStorage.setItem("id_user", response.data.No_Ahass);
+                    alert("Selamat Datang " + username);
+                    navigate("/user/dashboard");
+                }
+                else {
+                    alert(response.data.message);
+                }
+            });
         }
     }
     

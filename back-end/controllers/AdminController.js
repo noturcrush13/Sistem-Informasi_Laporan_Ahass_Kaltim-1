@@ -66,13 +66,24 @@ class AdminController {
         }
     }
 
+    static async getAdminbyID(req, res){
+        try{
+            const admin = await Admin.findById(req.params.id);
+            res.status(200).json(admin);
+        }
+        catch(error){
+            res.status(500).json({error: {message: error.message}});
+        }
+    }
+
     static async editAdminbyID(req, res){
         try{
             const {id} = req.params;
             const {username, password} = req.body;
+            const hashedPassword = await bcrypt.hash(password, 10);
             const admin = await Admin.findOneAndUpdate(
                 {_id: id},
-                {username: username, password: password},
+                {username: username, password: hashedPassword},
                 {new: true}
             );
             res.status(200).json({

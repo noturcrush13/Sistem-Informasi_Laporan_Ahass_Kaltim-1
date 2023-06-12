@@ -66,9 +66,9 @@ function BuatLaporanAdmin () {
     }
 
         
-    const resetInput = () => {
+    const reset = () => {
         setNoAhass("");
-        setTanggal("");
+        setTanggal(new Date());
         setUserEntry("");
         setKpb1("");
         setMekanik("");
@@ -94,9 +94,10 @@ function BuatLaporanAdmin () {
         setJumlahUEbyInjectorCleaner("");
     }
 
-    const clearForm = (e) => {
+    const handleReset = (e) => {
         e.preventDefault();
-        resetInput();
+        // console.log("reset");
+        reset();
     }
 
     const handleSubmit = (e) => {
@@ -188,10 +189,10 @@ function BuatLaporanAdmin () {
                     </Col>
                     <Col md={6} className="">
                         <FormGroup>
-                            <FormLabel>User Entry*</FormLabel>
+                            <FormLabel>Unit Entry*</FormLabel>
                             <FormControl 
                             type="number" 
-                            placeholder="Total User Entry" 
+                            placeholder="Total Unit Entry" 
                             onChange={(e) => setUserEntry(e.target.value)}
                             />
                         </FormGroup>
@@ -462,8 +463,9 @@ function BuatLaporanAdmin () {
                     <Col md={10}>
                         <Button 
                         className="button-form sm mx-auto w-100 mb-5" 
+                        type="reset"
                         style={{backgroundColor:"white", border:"2px solid #820000", color:"#820000",}}
-                        onClick={clearForm}
+                        onClick={handleReset}
                         >Reset</Button>
                     </Col>
                 </Row>

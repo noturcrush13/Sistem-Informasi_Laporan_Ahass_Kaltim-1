@@ -49,11 +49,33 @@ class LaporanController {
     }
 
     static async getLaporanById(req, res){
-        try{
-            const laporan = await Laporan.findById(req.params.id);
+        const { id } = req.params;
+        try {
+            const laporan = await Laporan.findById(id);
             res.status(200).json({
-                message: "berhasil mendapatkan laporan",
+                message: "Berhasil mendapatkan laporan",
                 data: laporan,
+            });
+        }
+        catch (error){
+            res.status(500).json({error: {message: error.message}});
+        }
+    }
+
+    static async getLaporanbyDate (req, res){
+        try {
+            const id_dealer = req.params.id_dealer;
+            const tanggal_input = new Date(req.params.tanggal);
+
+            const laporan = await Laporan.find({id_dealer: id_dealer});
+            const laporanFiltered = laporan.filter((item) => {
+                const tanggal = new Date(item.tanggal);
+                return tanggal.getTime() === tanggal_input.getTime();
+            });
+
+            res.status(200).json({
+                message: "Berhasil mendapatkan laporan",
+                data: laporanFiltered,
             });
         } catch (error){
             res.status(500).json({error: {message: error.message}});
@@ -82,7 +104,53 @@ class LaporanController {
         } catch (error) {
           res.status(500).json({ error: { message: error.message } });
         }
-      }
+    }
+
+    static async updateLaporan(req, res){
+        try {
+            const id_laporan = req.params.id;
+
+            const {total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event,ue_by_engine_flush, ue_by_injector_cleaner, pendapatan_jasa, penjualan_part, penjualan_oli } = req.body;
+
+            await Laporan.findByIdAndUpdate({_id: id_laporan}, 
+                {
+                    total_mekanik : total_mekanik,
+                    unit_entry : unit_entry,
+                    KPB_1 : KPB_1,
+                    KPB_2 : KPB_2,
+                    KPB_3 : KPB_3,
+                    KPB_4 : KPB_4,
+                    claim : claim,
+                    service_lengkap : service_lengkap,
+                    service_ringan : service_ringan,
+                    ganti_oli : ganti_oli,
+                    light_repair : light_repair,
+                    heavy_repair : heavy_repair,
+                    job_return : job_return,
+                    other_job : other_job,
+                    jumlah_ue_by_service_visit : jumlah_ue_by_service_visit,
+                    jumlah_ue_by_pit_express : jumlah_ue_by_pit_express,
+                    ue_by_reminder : ue_by_reminder,
+                    ue_by_ahass_event : ue_by_ahass_event,
+                    ue_by_engine_flush : ue_by_engine_flush,
+                    ue_by_injector_cleaner : ue_by_injector_cleaner,
+                    pendapatan_jasa : pendapatan_jasa,
+                    penjualan_part : penjualan_part,
+                    penjualan_oli : penjualan_oli,
+                });
+            res.status(200).json({
+                message: "Berhasil mengubah laporan"
+            });
+        }
+        catch (error) {
+            res.status(500).json({
+                error: {
+                    message: "Terjadi kesalahan saat mengubah laporan",
+                    details: error.message,
+                },
+            });
+        }
+    }
 
     static async deleteLaporan(req, res){
         try{
@@ -158,12 +226,13 @@ class LaporanController {
         }
     }
 
-    static async getAllLaporanBulananPerDealer(req, res) {
-        try {
+    static async getAllLaporanBulananByidDealer(req, res){
+        try{
+            const id_dealer = req.params.id_dealer;
             const bulan = req.params.bulan;
             const tahun = req.params.tahun;
-            const laporan = await Laporan.find();
-    
+            const laporan = await Laporan.find({id_dealer: id_dealer});
+
             const laporanBulanan = laporan.filter((item) => {
                 const tanggal = new Date(item.tanggal);
                 const bulanLaporan = tanggal.getMonth() + 1;
@@ -171,11 +240,11 @@ class LaporanController {
                 const tahunLaporan = tanggal.getFullYear();
                 return bulanLaporan == bulan && tahunLaporan == tahun;
             });
-    
+            
             const laporanBulananPerDealer = (laporan) => {
                 let rekap = {};
                 laporan.forEach((curr) => {
-                    const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner } = curr;
+                    const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner, pendapatan_jasa, penjualan_oli, penjualan_part } = curr;
                     if (!rekap[id_dealer]) {
                         rekap[id_dealer] = {
                             id_dealer,
@@ -199,6 +268,9 @@ class LaporanController {
                             ue_by_ahass_event: parseInt(ue_by_ahass_event),
                             ue_by_engine_flush: parseInt(ue_by_engine_flush),
                             ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
+                            pendapatan_jasa: parseInt(pendapatan_jasa),
+                            penjualan_oli: parseInt(penjualan_oli),
+                            penjualan_part: parseInt(penjualan_part),
                         };
                     } else {
                         rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
@@ -221,6 +293,92 @@ class LaporanController {
                         rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
                         rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
                         rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
+                        rekap[id_dealer].pendapatan_jasa += parseInt(pendapatan_jasa);
+                        rekap[id_dealer].penjualan_oli += parseInt(penjualan_oli);
+                        rekap[id_dealer].penjualan_part += parseInt(penjualan_part);
+                    }
+                });
+                return Object.values(rekap);
+            };
+            const laporanBulananPerDealerResult = laporanBulananPerDealer(laporanBulanan);
+            res.status(200).json({
+                message: "berhasil mendapatkan laporan",
+                data: laporanBulananPerDealerResult,
+            });
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+    static async getAllLaporanBulananPerDealer(req, res) {
+        try {
+            const bulan = req.params.bulan;
+            const tahun = req.params.tahun;
+            const laporan = await Laporan.find();
+    
+            const laporanBulanan = laporan.filter((item) => {
+                const tanggal = new Date(item.tanggal);
+                const bulanLaporan = tanggal.getMonth() + 1;
+                const formatBulan = bulanLaporan.toString().padStart(2, "0");
+                const tahunLaporan = tanggal.getFullYear();
+                return bulanLaporan == bulan && tahunLaporan == tahun;
+            });
+    
+            const laporanBulananPerDealer = (laporan) => {
+                let rekap = {};
+                laporan.forEach((curr) => {
+                    const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner, pendapatan_jasa, penjualan_oli, penjualan_part } = curr;
+                    if (!rekap[id_dealer]) {
+                        rekap[id_dealer] = {
+                            id_dealer,
+                            total_mekanik: parseInt(total_mekanik),
+                            unit_entry: parseInt(unit_entry),
+                            KPB_1: parseInt(KPB_1),
+                            KPB_2: parseInt(KPB_2),
+                            KPB_3: parseInt(KPB_3),
+                            KPB_4: parseInt(KPB_4),
+                            claim: parseInt(claim),
+                            service_lengkap: parseInt(service_lengkap),
+                            service_ringan: parseInt(service_ringan),
+                            ganti_oli: parseInt(ganti_oli),
+                            light_repair: parseInt(light_repair),
+                            heavy_repair: parseInt(heavy_repair),
+                            job_return: parseInt(job_return),
+                            other_job: parseInt(other_job),
+                            jumlah_ue_by_service_visit: parseInt(jumlah_ue_by_service_visit),
+                            jumlah_ue_by_pit_express: parseInt(jumlah_ue_by_pit_express),
+                            ue_by_reminder: parseInt(ue_by_reminder),
+                            ue_by_ahass_event: parseInt(ue_by_ahass_event),
+                            ue_by_engine_flush: parseInt(ue_by_engine_flush),
+                            ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
+                            pendapatan_jasa: parseInt(pendapatan_jasa),
+                            penjualan_oli: parseInt(penjualan_oli),
+                            penjualan_part: parseInt(penjualan_part),
+                        };
+                    } else {
+                        rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
+                        rekap[id_dealer].unit_entry += parseInt(unit_entry);
+                        rekap[id_dealer].KPB_1 += parseInt(KPB_1);
+                        rekap[id_dealer].KPB_2 += parseInt(KPB_2);
+                        rekap[id_dealer].KPB_3 += parseInt(KPB_3);
+                        rekap[id_dealer].KPB_4 += parseInt(KPB_4);
+                        rekap[id_dealer].claim += parseInt(claim);
+                        rekap[id_dealer].service_lengkap += parseInt(service_lengkap);
+                        rekap[id_dealer].service_ringan += parseInt(service_ringan);
+                        rekap[id_dealer].ganti_oli += parseInt(ganti_oli);
+                        rekap[id_dealer].light_repair += parseInt(light_repair);
+                        rekap[id_dealer].heavy_repair += parseInt(heavy_repair);
+                        rekap[id_dealer].job_return += parseInt(job_return);
+                        rekap[id_dealer].other_job += parseInt(other_job);
+                        rekap[id_dealer].jumlah_ue_by_service_visit += parseInt(jumlah_ue_by_service_visit);
+                        rekap[id_dealer].jumlah_ue_by_pit_express += parseInt(jumlah_ue_by_pit_express);
+                        rekap[id_dealer].ue_by_reminder += parseInt(ue_by_reminder);
+                        rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
+                        rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
+                        rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
+                        rekap[id_dealer].pendapatan_jasa += parseInt(pendapatan_jasa);
+                        rekap[id_dealer].penjualan_oli += parseInt(penjualan_oli);
+                        rekap[id_dealer].penjualan_part += parseInt(penjualan_part);
                     }
                 });
                 return Object.values(rekap);
@@ -267,53 +425,59 @@ class LaporanController {
           const laporanBulananPerDealer = (laporan) => {
             let rekap = {};
             laporan.forEach((curr) => {
-                const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner } = curr;
-                if (!rekap[id_dealer]) {
-                    rekap[id_dealer] = {
-                        id_dealer,
-                        total_mekanik: parseInt(total_mekanik),
-                        unit_entry: parseInt(unit_entry),
-                        KPB_1: parseInt(KPB_1),
-                        KPB_2: parseInt(KPB_2),
-                        KPB_3: parseInt(KPB_3),
-                        KPB_4: parseInt(KPB_4),
-                        claim: parseInt(claim),
-                        service_lengkap: parseInt(service_lengkap),
-                        service_ringan: parseInt(service_ringan),
-                        ganti_oli: parseInt(ganti_oli),
-                        light_repair: parseInt(light_repair),
-                        heavy_repair: parseInt(heavy_repair),
-                        job_return: parseInt(job_return),
-                        other_job: parseInt(other_job),
-                        jumlah_ue_by_service_visit: parseInt(jumlah_ue_by_service_visit),
-                        jumlah_ue_by_pit_express: parseInt(jumlah_ue_by_pit_express),
-                        ue_by_reminder: parseInt(ue_by_reminder),
-                        ue_by_ahass_event: parseInt(ue_by_ahass_event),
-                        ue_by_engine_flush: parseInt(ue_by_engine_flush),
-                        ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
-                    };
-                } else {
-                    rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
-                    rekap[id_dealer].unit_entry += parseInt(unit_entry);
-                    rekap[id_dealer].KPB_1 += parseInt(KPB_1);
-                    rekap[id_dealer].KPB_2 += parseInt(KPB_2);
-                    rekap[id_dealer].KPB_3 += parseInt(KPB_3);
-                    rekap[id_dealer].KPB_4 += parseInt(KPB_4);
-                    rekap[id_dealer].claim += parseInt(claim);
-                    rekap[id_dealer].service_lengkap += parseInt(service_lengkap);
-                    rekap[id_dealer].service_ringan += parseInt(service_ringan);
-                    rekap[id_dealer].ganti_oli += parseInt(ganti_oli);
-                    rekap[id_dealer].light_repair += parseInt(light_repair);
-                    rekap[id_dealer].heavy_repair += parseInt(heavy_repair);
-                    rekap[id_dealer].job_return += parseInt(job_return);
-                    rekap[id_dealer].other_job += parseInt(other_job);
-                    rekap[id_dealer].jumlah_ue_by_service_visit += parseInt(jumlah_ue_by_service_visit);
-                    rekap[id_dealer].jumlah_ue_by_pit_express += parseInt(jumlah_ue_by_pit_express);
-                    rekap[id_dealer].ue_by_reminder += parseInt(ue_by_reminder);
-                    rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
-                    rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
-                    rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
-                }
+                const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner, pendapatan_jasa, penjualan_oli, penjualan_part } = curr;
+                    if (!rekap[id_dealer]) {
+                        rekap[id_dealer] = {
+                            id_dealer,
+                            total_mekanik: parseInt(total_mekanik),
+                            unit_entry: parseInt(unit_entry),
+                            KPB_1: parseInt(KPB_1),
+                            KPB_2: parseInt(KPB_2),
+                            KPB_3: parseInt(KPB_3),
+                            KPB_4: parseInt(KPB_4),
+                            claim: parseInt(claim),
+                            service_lengkap: parseInt(service_lengkap),
+                            service_ringan: parseInt(service_ringan),
+                            ganti_oli: parseInt(ganti_oli),
+                            light_repair: parseInt(light_repair),
+                            heavy_repair: parseInt(heavy_repair),
+                            job_return: parseInt(job_return),
+                            other_job: parseInt(other_job),
+                            jumlah_ue_by_service_visit: parseInt(jumlah_ue_by_service_visit),
+                            jumlah_ue_by_pit_express: parseInt(jumlah_ue_by_pit_express),
+                            ue_by_reminder: parseInt(ue_by_reminder),
+                            ue_by_ahass_event: parseInt(ue_by_ahass_event),
+                            ue_by_engine_flush: parseInt(ue_by_engine_flush),
+                            ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
+                            pendapatan_jasa: parseInt(pendapatan_jasa),
+                            penjualan_oli: parseInt(penjualan_oli),
+                            penjualan_part: parseInt(penjualan_part),
+                        };
+                    } else {
+                        rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
+                        rekap[id_dealer].unit_entry += parseInt(unit_entry);
+                        rekap[id_dealer].KPB_1 += parseInt(KPB_1);
+                        rekap[id_dealer].KPB_2 += parseInt(KPB_2);
+                        rekap[id_dealer].KPB_3 += parseInt(KPB_3);
+                        rekap[id_dealer].KPB_4 += parseInt(KPB_4);
+                        rekap[id_dealer].claim += parseInt(claim);
+                        rekap[id_dealer].service_lengkap += parseInt(service_lengkap);
+                        rekap[id_dealer].service_ringan += parseInt(service_ringan);
+                        rekap[id_dealer].ganti_oli += parseInt(ganti_oli);
+                        rekap[id_dealer].light_repair += parseInt(light_repair);
+                        rekap[id_dealer].heavy_repair += parseInt(heavy_repair);
+                        rekap[id_dealer].job_return += parseInt(job_return);
+                        rekap[id_dealer].other_job += parseInt(other_job);
+                        rekap[id_dealer].jumlah_ue_by_service_visit += parseInt(jumlah_ue_by_service_visit);
+                        rekap[id_dealer].jumlah_ue_by_pit_express += parseInt(jumlah_ue_by_pit_express);
+                        rekap[id_dealer].ue_by_reminder += parseInt(ue_by_reminder);
+                        rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
+                        rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
+                        rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
+                        rekap[id_dealer].pendapatan_jasa += parseInt(pendapatan_jasa);
+                        rekap[id_dealer].penjualan_oli += parseInt(penjualan_oli);
+                        rekap[id_dealer].penjualan_part += parseInt(penjualan_part);
+                    }
             });
             return Object.values(rekap);
         };
@@ -360,7 +524,7 @@ class LaporanController {
             const laporanBulananPerDealer = (laporan) => {
                 let rekap = {};
                 laporan.forEach((curr) => {
-                    const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner } = curr;
+                    const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner, pendapatan_jasa, penjualan_oli, penjualan_part } = curr;
                     if (!rekap[id_dealer]) {
                         rekap[id_dealer] = {
                             id_dealer,
@@ -384,6 +548,9 @@ class LaporanController {
                             ue_by_ahass_event: parseInt(ue_by_ahass_event),
                             ue_by_engine_flush: parseInt(ue_by_engine_flush),
                             ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
+                            pendapatan_jasa: parseInt(pendapatan_jasa),
+                            penjualan_oli: parseInt(penjualan_oli),
+                            penjualan_part: parseInt(penjualan_part),
                         };
                     } else {
                         rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
@@ -406,6 +573,9 @@ class LaporanController {
                         rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
                         rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
                         rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
+                        rekap[id_dealer].pendapatan_jasa += parseInt(pendapatan_jasa);
+                        rekap[id_dealer].penjualan_oli += parseInt(penjualan_oli);
+                        rekap[id_dealer].penjualan_part += parseInt(penjualan_part);
                     }
                 });
                 return Object.values(rekap);
@@ -434,7 +604,6 @@ class LaporanController {
             const laporanTahunan = laporan.filter((curr) => {
                 const tanggal = new Date(curr.tanggal);
                 const tahunLaporan = tanggal.getFullYear();
-                console.log(tahunLaporan);
                 return tahunLaporan == tahun;
             });
 
@@ -445,7 +614,7 @@ class LaporanController {
             const laporanBulananPerDealer = (laporan) => {
                 const rekap = {};
                 laporan.forEach((curr) => {
-                    const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner } = curr;
+                    const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner, pendapatan_jasa, penjualan_oli, penjualan_part } = curr;
                     const tanggal = new Date(curr.tanggal);
                     const bulanLaporan = tanggal.getMonth() + 1;
                 
@@ -455,6 +624,7 @@ class LaporanController {
                     
                     if (!rekap[bulanLaporan][id_dealer]) {
                         rekap[bulanLaporan][id_dealer] = {
+                            id_dealer: id_dealer,
                             total_mekanik: parseInt(total_mekanik),
                             unit_entry: parseInt(unit_entry),
                             KPB_1: parseInt(KPB_1),
@@ -475,6 +645,9 @@ class LaporanController {
                             ue_by_ahass_event: parseInt(ue_by_ahass_event),
                             ue_by_engine_flush: parseInt(ue_by_engine_flush),
                             ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
+                            pendapatan_jasa: parseInt(pendapatan_jasa),
+                            penjualan_oli: parseInt(penjualan_oli),
+                            penjualan_part: parseInt(penjualan_part),
                         };
                     } else {
                         rekap[bulanLaporan][id_dealer].total_mekanik += parseInt(total_mekanik);
@@ -497,6 +670,9 @@ class LaporanController {
                         rekap[bulanLaporan][id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
                         rekap[bulanLaporan][id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
                         rekap[bulanLaporan][id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
+                        rekap[bulanLaporan][id_dealer].pendapatan_jasa += parseInt(pendapatan_jasa);
+                        rekap[bulanLaporan][id_dealer].penjualan_oli += parseInt(penjualan_oli);
+                        rekap[bulanLaporan][id_dealer].penjualan_part += parseInt(penjualan_part);
                     }
                 });
               
@@ -516,12 +692,12 @@ class LaporanController {
             res.status(500).json({ error: { message: error.message } });
         }
     }
-    
 
-    static async getAllLaporanTahunanbyTahun (req, res) {
+    static async getAllLaporanTahunanByIdDealer (req, res) {
         try {
+            const id_dealer = req.params.id_dealer;
             const tahun = req.params.tahun;
-            const laporan = await Laporan.find();
+            const laporan = await Laporan.find({id_dealer: id_dealer});
 
             const laporanTahunan = laporan.filter((curr) => {
                 const tanggal = new Date(curr.tanggal);
@@ -532,7 +708,7 @@ class LaporanController {
             const laporanTahunanPerDealer = (laporan) => {
                 let rekap = {};
                 laporan.forEach((curr) => {
-                    const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner } = curr;
+                    const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner, pendapatan_jasa, penjualan_oli, penjualan_part } = curr;
                     if (!rekap[id_dealer]) {
                         rekap[id_dealer] = {
                             id_dealer,
@@ -556,6 +732,9 @@ class LaporanController {
                             ue_by_ahass_event: parseInt(ue_by_ahass_event),
                             ue_by_engine_flush: parseInt(ue_by_engine_flush),
                             ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
+                            pendapatan_jasa: parseInt(pendapatan_jasa),
+                            penjualan_oli: parseInt(penjualan_oli),
+                            penjualan_part: parseInt(penjualan_part),
                         };
                     } else {
                         rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
@@ -578,6 +757,93 @@ class LaporanController {
                         rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
                         rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
                         rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
+                        rekap[id_dealer].pendapatan_jasa += parseInt(pendapatan_jasa);
+                        rekap[id_dealer].penjualan_oli += parseInt(penjualan_oli);
+                        rekap[id_dealer].penjualan_part += parseInt(penjualan_part);
+                    }
+                });
+                return Object.values(rekap);
+            };
+
+            const laporanTahunanPerDealerbyTahun = laporanTahunanPerDealer(laporanTahunan);
+
+            res.status(200).json({
+                message: "berhasil mendapatkan laporan",
+                data: laporanTahunanPerDealerbyTahun,
+            });
+        }
+        catch (error) {
+            res.status(500).json({ error: { message: error.message } });
+        }
+    }
+    
+
+    static async getAllLaporanTahunanbyTahun (req, res) {
+        try {
+            const tahun = req.params.tahun;
+            const laporan = await Laporan.find();
+
+            const laporanTahunan = laporan.filter((curr) => {
+                const tanggal = new Date(curr.tanggal);
+                const tahunLaporan = tanggal.getFullYear();
+                return tahunLaporan == tahun;
+            });
+
+            const laporanTahunanPerDealer = (laporan) => {
+                let rekap = {};
+                laporan.forEach((curr) => {
+                    const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner, pendapatan_jasa, penjualan_oli, penjualan_part } = curr;
+                    if (!rekap[id_dealer]) {
+                        rekap[id_dealer] = {
+                            id_dealer,
+                            total_mekanik: parseInt(total_mekanik),
+                            unit_entry: parseInt(unit_entry),
+                            KPB_1: parseInt(KPB_1),
+                            KPB_2: parseInt(KPB_2),
+                            KPB_3: parseInt(KPB_3),
+                            KPB_4: parseInt(KPB_4),
+                            claim: parseInt(claim),
+                            service_lengkap: parseInt(service_lengkap),
+                            service_ringan: parseInt(service_ringan),
+                            ganti_oli: parseInt(ganti_oli),
+                            light_repair: parseInt(light_repair),
+                            heavy_repair: parseInt(heavy_repair),
+                            job_return: parseInt(job_return),
+                            other_job: parseInt(other_job),
+                            jumlah_ue_by_service_visit: parseInt(jumlah_ue_by_service_visit),
+                            jumlah_ue_by_pit_express: parseInt(jumlah_ue_by_pit_express),
+                            ue_by_reminder: parseInt(ue_by_reminder),
+                            ue_by_ahass_event: parseInt(ue_by_ahass_event),
+                            ue_by_engine_flush: parseInt(ue_by_engine_flush),
+                            ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
+                            pendapatan_jasa: parseInt(pendapatan_jasa),
+                            penjualan_oli: parseInt(penjualan_oli),
+                            penjualan_part: parseInt(penjualan_part),
+                        };
+                    } else {
+                        rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
+                        rekap[id_dealer].unit_entry += parseInt(unit_entry);
+                        rekap[id_dealer].KPB_1 += parseInt(KPB_1);
+                        rekap[id_dealer].KPB_2 += parseInt(KPB_2);
+                        rekap[id_dealer].KPB_3 += parseInt(KPB_3);
+                        rekap[id_dealer].KPB_4 += parseInt(KPB_4);
+                        rekap[id_dealer].claim += parseInt(claim);
+                        rekap[id_dealer].service_lengkap += parseInt(service_lengkap);
+                        rekap[id_dealer].service_ringan += parseInt(service_ringan);
+                        rekap[id_dealer].ganti_oli += parseInt(ganti_oli);
+                        rekap[id_dealer].light_repair += parseInt(light_repair);
+                        rekap[id_dealer].heavy_repair += parseInt(heavy_repair);
+                        rekap[id_dealer].job_return += parseInt(job_return);
+                        rekap[id_dealer].other_job += parseInt(other_job);
+                        rekap[id_dealer].jumlah_ue_by_service_visit += parseInt(jumlah_ue_by_service_visit);
+                        rekap[id_dealer].jumlah_ue_by_pit_express += parseInt(jumlah_ue_by_pit_express);
+                        rekap[id_dealer].ue_by_reminder += parseInt(ue_by_reminder);
+                        rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
+                        rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
+                        rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
+                        rekap[id_dealer].pendapatan_jasa += parseInt(pendapatan_jasa);
+                        rekap[id_dealer].penjualan_oli += parseInt(penjualan_oli);
+                        rekap[id_dealer].penjualan_part += parseInt(penjualan_part);
                     }
                 });
                 return Object.values(rekap);
@@ -619,7 +885,7 @@ class LaporanController {
             const laporanTahunanPerDealer = (laporan) => {
                 let rekap = {};
                 laporan.forEach((curr) => {
-                    const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner } = curr;
+                    const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner, pendapatan_jasa, penjualan_oli, penjualan_part } = curr;
                     if (!rekap[id_dealer]) {
                         rekap[id_dealer] = {
                             id_dealer,
@@ -643,6 +909,9 @@ class LaporanController {
                             ue_by_ahass_event: parseInt(ue_by_ahass_event),
                             ue_by_engine_flush: parseInt(ue_by_engine_flush),
                             ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
+                            pendapatan_jasa: parseInt(pendapatan_jasa),
+                            penjualan_oli: parseInt(penjualan_oli),
+                            penjualan_part: parseInt(penjualan_part),
                         };
                     } else {
                         rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
@@ -665,6 +934,9 @@ class LaporanController {
                         rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
                         rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
                         rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
+                        rekap[id_dealer].pendapatan_jasa += parseInt(pendapatan_jasa);
+                        rekap[id_dealer].penjualan_oli += parseInt(penjualan_oli);
+                        rekap[id_dealer].penjualan_part += parseInt(penjualan_part);
                     }
                 });
                 return Object.values(rekap);
@@ -708,7 +980,7 @@ class LaporanController {
             const laporanTahunanPerDealer = (laporan) => {
                 let rekap = {};
                 laporan.forEach((curr) => {
-                    const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner } = curr;
+                    const { id_dealer, total_mekanik, unit_entry, KPB_1, KPB_2, KPB_3, KPB_4, claim, service_lengkap, service_ringan, ganti_oli, light_repair, heavy_repair, job_return, other_job, jumlah_ue_by_service_visit, jumlah_ue_by_pit_express, ue_by_reminder, ue_by_ahass_event, ue_by_engine_flush, ue_by_injector_cleaner, pendapatan_jasa, penjualan_oli, penjualan_part } = curr;
                     if (!rekap[id_dealer]) {
                         rekap[id_dealer] = {
                             id_dealer,
@@ -732,6 +1004,9 @@ class LaporanController {
                             ue_by_ahass_event: parseInt(ue_by_ahass_event),
                             ue_by_engine_flush: parseInt(ue_by_engine_flush),
                             ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
+                            pendapatan_jasa: parseInt(pendapatan_jasa),
+                            penjualan_oli: parseInt(penjualan_oli),
+                            penjualan_part: parseInt(penjualan_part),
                         };
                     } else {
                         rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
@@ -754,6 +1029,9 @@ class LaporanController {
                         rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
                         rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
                         rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
+                        rekap[id_dealer].pendapatan_jasa += parseInt(pendapatan_jasa);
+                        rekap[id_dealer].penjualan_oli += parseInt(penjualan_oli);
+                        rekap[id_dealer].penjualan_part += parseInt(penjualan_part);
                     }
                 });
                 return Object.values(rekap);
@@ -793,48 +1071,10 @@ class LaporanController {
                     if (!rekap[id_dealer]) {
                         rekap[id_dealer] = {
                             id_dealer,
-                            total_mekanik: parseInt(total_mekanik),
                             unit_entry: parseInt(unit_entry),
-                            KPB_1: parseInt(KPB_1),
-                            KPB_2: parseInt(KPB_2),
-                            KPB_3: parseInt(KPB_3),
-                            KPB_4: parseInt(KPB_4),
-                            claim: parseInt(claim),
-                            service_lengkap: parseInt(service_lengkap),
-                            service_ringan: parseInt(service_ringan),
-                            ganti_oli: parseInt(ganti_oli),
-                            light_repair: parseInt(light_repair),
-                            heavy_repair: parseInt(heavy_repair),
-                            job_return: parseInt(job_return),
-                            other_job: parseInt(other_job),
-                            jumlah_ue_by_service_visit: parseInt(jumlah_ue_by_service_visit),
-                            jumlah_ue_by_pit_express: parseInt(jumlah_ue_by_pit_express),
-                            ue_by_reminder: parseInt(ue_by_reminder),
-                            ue_by_ahass_event: parseInt(ue_by_ahass_event),
-                            ue_by_engine_flush: parseInt(ue_by_engine_flush),
-                            ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
                         };
                     } else {
-                        rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
                         rekap[id_dealer].unit_entry += parseInt(unit_entry);
-                        rekap[id_dealer].KPB_1 += parseInt(KPB_1);
-                        rekap[id_dealer].KPB_2 += parseInt(KPB_2);
-                        rekap[id_dealer].KPB_3 += parseInt(KPB_3);
-                        rekap[id_dealer].KPB_4 += parseInt(KPB_4);
-                        rekap[id_dealer].claim += parseInt(claim);
-                        rekap[id_dealer].service_lengkap += parseInt(service_lengkap);
-                        rekap[id_dealer].service_ringan += parseInt(service_ringan);
-                        rekap[id_dealer].ganti_oli += parseInt(ganti_oli);
-                        rekap[id_dealer].light_repair += parseInt(light_repair);
-                        rekap[id_dealer].heavy_repair += parseInt(heavy_repair);
-                        rekap[id_dealer].job_return += parseInt(job_return);
-                        rekap[id_dealer].other_job += parseInt(other_job);
-                        rekap[id_dealer].jumlah_ue_by_service_visit += parseInt(jumlah_ue_by_service_visit);
-                        rekap[id_dealer].jumlah_ue_by_pit_express += parseInt(jumlah_ue_by_pit_express);
-                        rekap[id_dealer].ue_by_reminder += parseInt(ue_by_reminder);
-                        rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
-                        rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
-                        rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
                     }
                 });
                 return Object.values(rekap);
@@ -888,48 +1128,10 @@ class LaporanController {
                 if (!rekap[id_dealer]) {
                     rekap[id_dealer] = {
                         id_dealer,
-                        total_mekanik: parseInt(total_mekanik),
                         unit_entry: parseInt(unit_entry),
-                        KPB_1: parseInt(KPB_1),
-                        KPB_2: parseInt(KPB_2),
-                        KPB_3: parseInt(KPB_3),
-                        KPB_4: parseInt(KPB_4),
-                        claim: parseInt(claim),
-                        service_lengkap: parseInt(service_lengkap),
-                        service_ringan: parseInt(service_ringan),
-                        ganti_oli: parseInt(ganti_oli),
-                        light_repair: parseInt(light_repair),
-                        heavy_repair: parseInt(heavy_repair),
-                        job_return: parseInt(job_return),
-                        other_job: parseInt(other_job),
-                        jumlah_ue_by_service_visit: parseInt(jumlah_ue_by_service_visit),
-                        jumlah_ue_by_pit_express: parseInt(jumlah_ue_by_pit_express),
-                        ue_by_reminder: parseInt(ue_by_reminder),
-                        ue_by_ahass_event: parseInt(ue_by_ahass_event),
-                        ue_by_engine_flush: parseInt(ue_by_engine_flush),
-                        ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
                     };
                 } else {
-                    rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
                     rekap[id_dealer].unit_entry += parseInt(unit_entry);
-                    rekap[id_dealer].KPB_1 += parseInt(KPB_1);
-                    rekap[id_dealer].KPB_2 += parseInt(KPB_2);
-                    rekap[id_dealer].KPB_3 += parseInt(KPB_3);
-                    rekap[id_dealer].KPB_4 += parseInt(KPB_4);
-                    rekap[id_dealer].claim += parseInt(claim);
-                    rekap[id_dealer].service_lengkap += parseInt(service_lengkap);
-                    rekap[id_dealer].service_ringan += parseInt(service_ringan);
-                    rekap[id_dealer].ganti_oli += parseInt(ganti_oli);
-                    rekap[id_dealer].light_repair += parseInt(light_repair);
-                    rekap[id_dealer].heavy_repair += parseInt(heavy_repair);
-                    rekap[id_dealer].job_return += parseInt(job_return);
-                    rekap[id_dealer].other_job += parseInt(other_job);
-                    rekap[id_dealer].jumlah_ue_by_service_visit += parseInt(jumlah_ue_by_service_visit);
-                    rekap[id_dealer].jumlah_ue_by_pit_express += parseInt(jumlah_ue_by_pit_express);
-                    rekap[id_dealer].ue_by_reminder += parseInt(ue_by_reminder);
-                    rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
-                    rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
-                    rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
                 }
             });
             return Object.values(rekap);
@@ -983,48 +1185,10 @@ class LaporanController {
                     if (!rekap[id_dealer]) {
                         rekap[id_dealer] = {
                             id_dealer,
-                            total_mekanik: parseInt(total_mekanik),
                             unit_entry: parseInt(unit_entry),
-                            KPB_1: parseInt(KPB_1),
-                            KPB_2: parseInt(KPB_2),
-                            KPB_3: parseInt(KPB_3),
-                            KPB_4: parseInt(KPB_4),
-                            claim: parseInt(claim),
-                            service_lengkap: parseInt(service_lengkap),
-                            service_ringan: parseInt(service_ringan),
-                            ganti_oli: parseInt(ganti_oli),
-                            light_repair: parseInt(light_repair),
-                            heavy_repair: parseInt(heavy_repair),
-                            job_return: parseInt(job_return),
-                            other_job: parseInt(other_job),
-                            jumlah_ue_by_service_visit: parseInt(jumlah_ue_by_service_visit),
-                            jumlah_ue_by_pit_express: parseInt(jumlah_ue_by_pit_express),
-                            ue_by_reminder: parseInt(ue_by_reminder),
-                            ue_by_ahass_event: parseInt(ue_by_ahass_event),
-                            ue_by_engine_flush: parseInt(ue_by_engine_flush),
-                            ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
                         };
                     } else {
-                        rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
                         rekap[id_dealer].unit_entry += parseInt(unit_entry);
-                        rekap[id_dealer].KPB_1 += parseInt(KPB_1);
-                        rekap[id_dealer].KPB_2 += parseInt(KPB_2);
-                        rekap[id_dealer].KPB_3 += parseInt(KPB_3);
-                        rekap[id_dealer].KPB_4 += parseInt(KPB_4);
-                        rekap[id_dealer].claim += parseInt(claim);
-                        rekap[id_dealer].service_lengkap += parseInt(service_lengkap);
-                        rekap[id_dealer].service_ringan += parseInt(service_ringan);
-                        rekap[id_dealer].ganti_oli += parseInt(ganti_oli);
-                        rekap[id_dealer].light_repair += parseInt(light_repair);
-                        rekap[id_dealer].heavy_repair += parseInt(heavy_repair);
-                        rekap[id_dealer].job_return += parseInt(job_return);
-                        rekap[id_dealer].other_job += parseInt(other_job);
-                        rekap[id_dealer].jumlah_ue_by_service_visit += parseInt(jumlah_ue_by_service_visit);
-                        rekap[id_dealer].jumlah_ue_by_pit_express += parseInt(jumlah_ue_by_pit_express);
-                        rekap[id_dealer].ue_by_reminder += parseInt(ue_by_reminder);
-                        rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
-                        rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
-                        rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
                     }
                 });
                 return Object.values(rekap);
@@ -1063,48 +1227,10 @@ class LaporanController {
                     if (!rekap[id_dealer]) {
                         rekap[id_dealer] = {
                             id_dealer,
-                            total_mekanik: parseInt(total_mekanik),
                             unit_entry: parseInt(unit_entry),
-                            KPB_1: parseInt(KPB_1),
-                            KPB_2: parseInt(KPB_2),
-                            KPB_3: parseInt(KPB_3),
-                            KPB_4: parseInt(KPB_4),
-                            claim: parseInt(claim),
-                            service_lengkap: parseInt(service_lengkap),
-                            service_ringan: parseInt(service_ringan),
-                            ganti_oli: parseInt(ganti_oli),
-                            light_repair: parseInt(light_repair),
-                            heavy_repair: parseInt(heavy_repair),
-                            job_return: parseInt(job_return),
-                            other_job: parseInt(other_job),
-                            jumlah_ue_by_service_visit: parseInt(jumlah_ue_by_service_visit),
-                            jumlah_ue_by_pit_express: parseInt(jumlah_ue_by_pit_express),
-                            ue_by_reminder: parseInt(ue_by_reminder),
-                            ue_by_ahass_event: parseInt(ue_by_ahass_event),
-                            ue_by_engine_flush: parseInt(ue_by_engine_flush),
-                            ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
                         };
                     } else {
-                        rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
                         rekap[id_dealer].unit_entry += parseInt(unit_entry);
-                        rekap[id_dealer].KPB_1 += parseInt(KPB_1);
-                        rekap[id_dealer].KPB_2 += parseInt(KPB_2);
-                        rekap[id_dealer].KPB_3 += parseInt(KPB_3);
-                        rekap[id_dealer].KPB_4 += parseInt(KPB_4);
-                        rekap[id_dealer].claim += parseInt(claim);
-                        rekap[id_dealer].service_lengkap += parseInt(service_lengkap);
-                        rekap[id_dealer].service_ringan += parseInt(service_ringan);
-                        rekap[id_dealer].ganti_oli += parseInt(ganti_oli);
-                        rekap[id_dealer].light_repair += parseInt(light_repair);
-                        rekap[id_dealer].heavy_repair += parseInt(heavy_repair);
-                        rekap[id_dealer].job_return += parseInt(job_return);
-                        rekap[id_dealer].other_job += parseInt(other_job);
-                        rekap[id_dealer].jumlah_ue_by_service_visit += parseInt(jumlah_ue_by_service_visit);
-                        rekap[id_dealer].jumlah_ue_by_pit_express += parseInt(jumlah_ue_by_pit_express);
-                        rekap[id_dealer].ue_by_reminder += parseInt(ue_by_reminder);
-                        rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
-                        rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
-                        rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
                     }
                 });
                 return Object.values(rekap);
@@ -1152,48 +1278,10 @@ class LaporanController {
                     if (!rekap[id_dealer]) {
                         rekap[id_dealer] = {
                             id_dealer,
-                            total_mekanik: parseInt(total_mekanik),
                             unit_entry: parseInt(unit_entry),
-                            KPB_1: parseInt(KPB_1),
-                            KPB_2: parseInt(KPB_2),
-                            KPB_3: parseInt(KPB_3),
-                            KPB_4: parseInt(KPB_4),
-                            claim: parseInt(claim),
-                            service_lengkap: parseInt(service_lengkap),
-                            service_ringan: parseInt(service_ringan),
-                            ganti_oli: parseInt(ganti_oli),
-                            light_repair: parseInt(light_repair),
-                            heavy_repair: parseInt(heavy_repair),
-                            job_return: parseInt(job_return),
-                            other_job: parseInt(other_job),
-                            jumlah_ue_by_service_visit: parseInt(jumlah_ue_by_service_visit),
-                            jumlah_ue_by_pit_express: parseInt(jumlah_ue_by_pit_express),
-                            ue_by_reminder: parseInt(ue_by_reminder),
-                            ue_by_ahass_event: parseInt(ue_by_ahass_event),
-                            ue_by_engine_flush: parseInt(ue_by_engine_flush),
-                            ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
                         };
                     } else {
-                        rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
                         rekap[id_dealer].unit_entry += parseInt(unit_entry);
-                        rekap[id_dealer].KPB_1 += parseInt(KPB_1);
-                        rekap[id_dealer].KPB_2 += parseInt(KPB_2);
-                        rekap[id_dealer].KPB_3 += parseInt(KPB_3);
-                        rekap[id_dealer].KPB_4 += parseInt(KPB_4);
-                        rekap[id_dealer].claim += parseInt(claim);
-                        rekap[id_dealer].service_lengkap += parseInt(service_lengkap);
-                        rekap[id_dealer].service_ringan += parseInt(service_ringan);
-                        rekap[id_dealer].ganti_oli += parseInt(ganti_oli);
-                        rekap[id_dealer].light_repair += parseInt(light_repair);
-                        rekap[id_dealer].heavy_repair += parseInt(heavy_repair);
-                        rekap[id_dealer].job_return += parseInt(job_return);
-                        rekap[id_dealer].other_job += parseInt(other_job);
-                        rekap[id_dealer].jumlah_ue_by_service_visit += parseInt(jumlah_ue_by_service_visit);
-                        rekap[id_dealer].jumlah_ue_by_pit_express += parseInt(jumlah_ue_by_pit_express);
-                        rekap[id_dealer].ue_by_reminder += parseInt(ue_by_reminder);
-                        rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
-                        rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
-                        rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
                     }
                 });
                 return Object.values(rekap);
@@ -1243,48 +1331,10 @@ class LaporanController {
                     if (!rekap[id_dealer]) {
                         rekap[id_dealer] = {
                             id_dealer,
-                            total_mekanik: parseInt(total_mekanik),
                             unit_entry: parseInt(unit_entry),
-                            KPB_1: parseInt(KPB_1),
-                            KPB_2: parseInt(KPB_2),
-                            KPB_3: parseInt(KPB_3),
-                            KPB_4: parseInt(KPB_4),
-                            claim: parseInt(claim),
-                            service_lengkap: parseInt(service_lengkap),
-                            service_ringan: parseInt(service_ringan),
-                            ganti_oli: parseInt(ganti_oli),
-                            light_repair: parseInt(light_repair),
-                            heavy_repair: parseInt(heavy_repair),
-                            job_return: parseInt(job_return),
-                            other_job: parseInt(other_job),
-                            jumlah_ue_by_service_visit: parseInt(jumlah_ue_by_service_visit),
-                            jumlah_ue_by_pit_express: parseInt(jumlah_ue_by_pit_express),
-                            ue_by_reminder: parseInt(ue_by_reminder),
-                            ue_by_ahass_event: parseInt(ue_by_ahass_event),
-                            ue_by_engine_flush: parseInt(ue_by_engine_flush),
-                            ue_by_injector_cleaner: parseInt(ue_by_injector_cleaner),
                         };
                     } else {
-                        rekap[id_dealer].total_mekanik += parseInt(total_mekanik);
                         rekap[id_dealer].unit_entry += parseInt(unit_entry);
-                        rekap[id_dealer].KPB_1 += parseInt(KPB_1);
-                        rekap[id_dealer].KPB_2 += parseInt(KPB_2);
-                        rekap[id_dealer].KPB_3 += parseInt(KPB_3);
-                        rekap[id_dealer].KPB_4 += parseInt(KPB_4);
-                        rekap[id_dealer].claim += parseInt(claim);
-                        rekap[id_dealer].service_lengkap += parseInt(service_lengkap);
-                        rekap[id_dealer].service_ringan += parseInt(service_ringan);
-                        rekap[id_dealer].ganti_oli += parseInt(ganti_oli);
-                        rekap[id_dealer].light_repair += parseInt(light_repair);
-                        rekap[id_dealer].heavy_repair += parseInt(heavy_repair);
-                        rekap[id_dealer].job_return += parseInt(job_return);
-                        rekap[id_dealer].other_job += parseInt(other_job);
-                        rekap[id_dealer].jumlah_ue_by_service_visit += parseInt(jumlah_ue_by_service_visit);
-                        rekap[id_dealer].jumlah_ue_by_pit_express += parseInt(jumlah_ue_by_pit_express);
-                        rekap[id_dealer].ue_by_reminder += parseInt(ue_by_reminder);
-                        rekap[id_dealer].ue_by_ahass_event += parseInt(ue_by_ahass_event);
-                        rekap[id_dealer].ue_by_engine_flush += parseInt(ue_by_engine_flush);
-                        rekap[id_dealer].ue_by_injector_cleaner += parseInt(ue_by_injector_cleaner);
                     }
                 });
                 return Object.values(rekap);
