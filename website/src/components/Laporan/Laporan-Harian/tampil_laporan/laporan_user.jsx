@@ -40,7 +40,6 @@ function TampilLaporanHarianUser(){
     }
 
     const [laporan, setLaporan] = useState([]);
-    const [namaDealer, setNamaDealer] = useState('');
 
     const searchParams = useQuery();
     const noAhass = searchParams.get('id_user');
@@ -59,24 +58,49 @@ function TampilLaporanHarianUser(){
     }
 
     useEffect(() => {
-        Axios.get(`http://localhost:3001/laporan/getlaporanharianuser/${noAhass}/${tanggal}`, {
+        Axios.get(`https://backend-fix.glitch.me/laporan/getlaporanharianuser/${tanggal}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
         }).then((response) => {
-            setLaporan(response.data.data);
+            const laporanData = response.data.data;
+            const updatedLaporan = laporanData.map(async (item) => {
+              const namaDealer = await convertIdDealerToNamaDealer(item.id_dealer);
+              return {
+                ...item,
+                namaDealer: namaDealer,
+              };
+            });
+      
+            Promise.all(updatedLaporan)
+              .then((updatedLaporanWithDealerName) => {
+                setLaporan(updatedLaporanWithDealerName);
+            })
+              .catch((error) => {
+                console.error('Failed to update laporan with dealer name', error);
+            });
         })
     }, [])
 
-    useEffect(() => {
-        Axios.get(`http://localhost:3001/dealer/getdealername/${noAhass}`, {
-            headers: {
-                "Authorization": `Bearer ${token}`,
+    const convertIdDealerToNamaDealer = async (idDealer) => {
+        try {
+          const response = await Axios.get(
+            `https://backend-fix.glitch.me/dealer/getdealername/${idDealer}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
             }
-        }).then((response) => {
-            setNamaDealer(response.data.data[0].Nama_Ahass);
-        })
-    }, [])
+          );
+          return response.data.data[0].Nama_Ahass;
+        } catch (error) {
+          console.error(error);
+          throw new Error('Failed to convert ID dealer to dealer name.');
+        }
+    };
+
+    console.log(laporan);
+
 
     return (
         <div>
@@ -99,7 +123,7 @@ function TampilLaporanHarianUser(){
                                 <td>
                                     No Dealer : {item.id_dealer}
                                     <br/>
-                                    Nama Dealer : {namaDealer}
+                                    Nama Dealer : {item.namaDealer}
                                 </td>
                                 <td>
                                     Mekanik : {item.total_mekanik}
@@ -155,7 +179,7 @@ function TampilLaporanHarianUser(){
                 size='sm'
                 style={{height: '2.2rem', lineHeight: '1.5rem'}}
                 onClick={(e) => {
-                    exportToCSV(laporan, `Laporan Harian ${namaDealer} ${tanggal}`)
+                    exportToCSV(laporan, `Laporan Harian ${tanggal}`)
                 }}>Export Laporan
             </MDBBtn>
         </div>

@@ -29,7 +29,7 @@ function LaporanHarianUser () {
 
     const handleSubmit = (e) => {
         if (isEmpty(e)) {
-            Axios.get(`http://localhost:3001/laporan/getlaporanharianuser/${id_user}/${tanggal}`,{
+            Axios.get(`https://backend-fix.glitch.me/laporan/getlaporanharianuser/${tanggal}`,{
                 headers: {
                     "Authorization": `Bearer ${token}`,
                 }
@@ -40,7 +40,7 @@ function LaporanHarianUser () {
                 }
                 else {
                     alert("Data ditemukan");
-                    const query = `id_user=${id_user}&tanggal=${tanggal}`;
+                    const query = `&tanggal=${tanggal}`;
                     window.location.href = `/user/laporan/laporan-harian/hasil-data?` + query;
                 }
             })
@@ -72,7 +72,7 @@ function LaporanHarianUser () {
                         <Button 
                         onClick={handleSubmit} 
                         className="button-harian sm mx-auto w-100 mb-2"
-                         style={{backgroundColor:"#820000", border:"none"}}
+                        style={{backgroundColor:"#C71C15"}}
                          >Cari Data</Button>
                     </Col>
                 </Row>

@@ -175,7 +175,7 @@ function TampilLaporanTahunanNoAHASSUser(){
     }
 
     useEffect(() => {
-        Axios.get(`https://9296-2001-448a-6000-9bd-31d5-c2a3-b2c2-a839.ngrok-free.app/dealer/getdealername/${noAhass}`, {
+        Axios.get(`https://backend-fix.glitch.me/dealer/getdealername/${noAhass}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
@@ -186,7 +186,7 @@ function TampilLaporanTahunanNoAHASSUser(){
     }, [])
 
     useEffect(() => {
-        Axios.get(`https://9296-2001-448a-6000-9bd-31d5-c2a3-b2c2-a839.ngrok-free.app/laporan/getlaporantahunan/${noAhass}/${dataTahun}`, {
+        Axios.get(`https://backend-fix.glitch.me/laporan/getlaporantahunan/${noAhass}/${dataTahun}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }

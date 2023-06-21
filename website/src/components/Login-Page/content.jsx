@@ -30,7 +30,7 @@ function Content() {
         if(isEmpty(username) || isEmpty(password)){
             alert("Username atau Password tidak boleh kosong");
         }else{
-            Axios.post("http://localhost:3001/admin/login", {
+            Axios.post("https://backend-fix.glitch.me/admin/login", {
                 username: username,
                 password: password,
             }).then((response) => {
@@ -38,9 +38,10 @@ function Content() {
                     localStorage.setItem("token", response.data.token);
                     alert("Login Berhasil");
                     navigate("/admin/dashboard");
-                }else{
-                    alert(response.data.message);
                 }
+            }).catch((error) => {
+                console.log(error);
+                alert(error.response.data.error.message);
             });
         }
     }
@@ -63,10 +64,10 @@ function Content() {
                                 <MDBCard className='my-5 mx-auto' style={{borderRadius: '1rem', width:"45%", backgroundColor:"white"}}>
                                     <MDBCardBody className='p-5 w-100 d-flex flex-column'>
                                         <Image src={Logo} className='mx-auto mb-3' style={{width:"50%", alignItems:"center"}}/>
-                                        <MDBInput wrapperClass='mb-1 w-50 mx-auto' label={<p style={{fontFamily:"serif", fontSize:"14px"}}>Username</p>} id='form1' type='' size="lg"
+                                        <MDBInput wrapperClass='mb-1 w-50 mx-auto' label={<p style={{fontFamily:"serif", fontSize:"18px"}}>Username</p>} id='form1' type='text' size="lg"
                                         onChange={(event) => setUsername(event.target.value)} value={username} 
                                         />
-                                        <MDBInput wrapperClass='mb-1 w-50 mx-auto' label={<p style={{fontFamily:"serif", fontSize:"14px"}}>Password</p>} id='form1' type='password' size="lg"
+                                        <MDBInput wrapperClass='mb-1 w-50 mx-auto' label={<p style={{fontFamily:"serif", fontSize:"18px"}}>Password</p>} id='form1' type='password' size="lg"
                                         onChange={(event) => setPassword(event.target.value)} value={password}
                                         />
                                         <Button className="sm mx-auto w-50 mb-5" style={{backgroundColor:"#C71C15"}} 

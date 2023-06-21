@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Axios from "axios";
 
@@ -53,17 +53,15 @@ function BuatLaporanAdmin () {
         }
     }
 
-    const getAhass = () => {
-        Axios.get("http://localhost:3001/dealer/",
-        {
+    useEffect(() => {
+        Axios.get("https://backend-fix.glitch.me/dealer", {
             headers: {
-                "Authorization": `Bearer ${token}`,
+                "Authorization" : `Bearer ${token}`
             }
-        },
-        ).then((response) => {
+        }).then((response) => {
             setDataAhass(response.data['data']);
         })
-    }
+    }, [])
 
         
     const reset = () => {
@@ -131,7 +129,7 @@ function BuatLaporanAdmin () {
             penjualan_oli: penjualanOli,
         }
         if (isEmpty(e)) {
-            Axios.post("http://localhost:3001/laporan/create", data, {
+            Axios.post("https://backend-fix.glitch.me/laporan/create", data, {
               headers: {
                 "Authorization": `Bearer ${token}`,
               }
@@ -157,7 +155,6 @@ function BuatLaporanAdmin () {
     }
     
     return (
-        getAhass(),
         <div >
             <SubTitleComponent title="Laporan" subtitle="Buat Laporan Harian Baru"/>
             <Container fluid>
@@ -456,7 +453,7 @@ function BuatLaporanAdmin () {
                     <Col md={10}>
                         <Button 
                         className="button-form sm mx-auto w-100 mb-2" 
-                        style={{backgroundColor:"#820000", border:"none"}}
+                        style={{backgroundColor:"#C71C15"}}
                         onClick={handleSubmit}
                         >Kumpul Laporan Harian</Button>
                     </Col>

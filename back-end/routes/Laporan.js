@@ -5,12 +5,15 @@ const LaporanController = require("../controllers/LaporanController");
 
 router.post("/create", LaporanController.createLaporan);
 router.get("/getlaporanharian/:id_dealer/:first_date/:last_date", LaporanController.getLaporanByFirstandLastDate)
+router.get("/getlaporanharian/:first_date/:last_date", LaporanController.getLaporanAllDealerByFirstandLastDate);
 router.get("/", LaporanController.getLaporan);
 router.get("/:id", LaporanController.getLaporanById);
 router.post("/update/:id", LaporanController.updateLaporan);
 router.delete("/delete/:id", LaporanController.deleteLaporan);
-router.get("/getlaporanharianuser/:id_dealer/:tanggal", LaporanController.getLaporanbyDate);
+router.get("/getlaporanharianuser/:tanggal", LaporanController.getLaporanbyDate);
 router.get("/getlaporanbulanan/:id_dealer/:bulan/:tahun", LaporanController.getLaporanBulanan);
+router.get("/getlaporanbulanansemua/:bulan/:tahun", LaporanController.getAllLaporanBulananAllDealer);
+router.get("/getlaporanbulanandashboard/:id_dealer/:bulan/:tahun", LaporanController.getAllLaporanBulananOneDealer);
 router.get("/getlaporanbulanansaya/:id_dealer/:bulan/:tahun", LaporanController.getAllLaporanBulananByidDealer);
 router.get("/getalllaporanbulanan/:bulan/:tahun", LaporanController.getAllLaporanBulananbyBulan);
 router.get("/getrekaplaporanbulanan/:bulan/:tahun", LaporanController.getAllLaporanBulananPerDealer);

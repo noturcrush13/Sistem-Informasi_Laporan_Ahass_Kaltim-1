@@ -37,7 +37,7 @@ function LaporanTahunanTahunUser () {
     const token = localStorage.getItem("token");
 
     useEffect(() => {
-        Axios.get("http://localhost:3001/dealer", {
+        Axios.get("https://backend-fix.glitch.me/dealer", {
             headers: {
                 "Authorization" : `Bearer ${token}`
             }
@@ -72,7 +72,7 @@ function LaporanTahunanTahunUser () {
 
     const handleSubmit = (e) => {
         if(isEmpty(e)) {
-            Axios.get(`http://localhost:3001/laporan/getlaporantahunan/${noAhass}/${dataTahun}`, {
+            Axios.get(`https://backend-fix.glitch.me/laporan/getlaporantahunan/${noAhass}/${dataTahun}`, {
                 headers: {
                     "Authorization" : `Bearer ${token}`
                 }
@@ -132,7 +132,7 @@ function LaporanTahunanTahunUser () {
                     <Col md={10}>
                         <Button onClick={handleSubmit} 
                         className="button-harian sm mx-auto w-100 mb-2" 
-                        style={{backgroundColor:"#820000", border:"none"}}
+                        style={{backgroundColor:"#C71C15"}}
                         >Cari Data</Button>
                     </Col>
                 </Row>

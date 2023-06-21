@@ -25,7 +25,7 @@ function BuatUserAdmin () {
     const token = localStorage.getItem("token");
 
     const getDealer = () => {
-        Axios.get("http://localhost:3001/dealer/",{
+        Axios.get("https://backend-fix.glitch.me/dealer/",{
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
@@ -76,7 +76,7 @@ function BuatUserAdmin () {
             nama_belakang: namaBelakang,
         }
         if (isEmpty(e) && konfirmasiPassword(e)) {
-            Axios.post("http://localhost:3001/user/register", data,
+            Axios.post("https://backend-fix.glitch.me/user/register", data,
             {
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -187,7 +187,7 @@ function BuatUserAdmin () {
                     <Col md={10}>
                         <Button  
                         className="button-dealer sm mx-auto w-100 mb-2" 
-                        style={{backgroundColor:"#820000", border:"none"}}
+                        style={{backgroundColor:"#C71C15"}}
                         onClick={handleSubmit}
                         >Buat User</Button>
                     </Col>

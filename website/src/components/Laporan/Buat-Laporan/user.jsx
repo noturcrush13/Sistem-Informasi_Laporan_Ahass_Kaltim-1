@@ -112,7 +112,7 @@ function BuatLaporanUser () {
             penjualan_oli: penjualanOli,
         }
         if (isEmpty(e)) {
-            Axios.post("https://9296-2001-448a-6000-9bd-31d5-c2a3-b2c2-a839.ngrok-free.app/laporan/create", data, {
+            Axios.post("https://backend-fix.glitch.me/laporan/create", data, {
               headers: {
                 "Authorization": `Bearer ${token}`,
               }
@@ -423,7 +423,7 @@ function BuatLaporanUser () {
                     <Col md={10}>
                         <Button 
                         className="button-form sm mx-auto w-100 mb-2" 
-                        style={{backgroundColor:"#820000", border:"none"}}
+                        style={{backgroundColor:"#C71C15"}}
                         onClick={handleSubmit}
                         >Kumpul Laporan Harian</Button>
                     </Col>

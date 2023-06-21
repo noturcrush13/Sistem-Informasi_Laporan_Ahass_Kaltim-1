@@ -21,7 +21,7 @@ function LaporanHarianAdmin () {
     const token = localStorage.getItem("token");
 
     const getDealer = () => {
-        Axios.get("http://localhost:3001/dealer/",{
+        Axios.get("https://backend-fix.glitch.me/dealer/",{
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
@@ -32,12 +32,19 @@ function LaporanHarianAdmin () {
 
     const autofill_nama_ahass = (e) => {
         const no_ahass = e.target.value;
-        const nama_ahass = ahass.filter((item) => {
-            return item.No_Ahass === no_ahass
-        })
-        document.getElementById("nama_ahass").value = nama_ahass[0].Nama_Ahass;
-        setNoAhass(no_ahass);
-        setNamaAhass(nama_ahass[0].Nama_Ahass);
+        if (no_ahass === "all") {
+            document.getElementById("nama_ahass").value = "Semua Ahass";
+            setNoAhass("all");
+            setNamaAhass("Semua Ahass");
+        }
+        else {
+            const nama_ahass = ahass.filter((item) => {
+                return item.No_Ahass === no_ahass
+            })
+            document.getElementById("nama_ahass").value = nama_ahass[0].Nama_Ahass;
+            setNoAhass(no_ahass);
+            setNamaAhass(nama_ahass[0].Nama_Ahass);
+        }
     }
 
     const isEmpty = (e) => {
@@ -53,21 +60,40 @@ function LaporanHarianAdmin () {
 
     const handleSubmit = (e) => {
         if (isEmpty(e)) {
-            Axios.get(`http://localhost:3001/laporan/getlaporanharian/${noAhass}/${tanggalAwal}/${tanggalAkhir}`,{
+            if (noAhass === "all") {
+                Axios.get(`https://backend-fix.glitch.me/laporan/getlaporanharian/${tanggalAwal}/${tanggalAkhir}`,{
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     }
                     }).then((response) => {
-                        console.log(response.data['data']);
                         if (response.data['data'].length === 0) {
                             alert("Data tidak ditemukan");
                         }
                         else {
                             alert("data ditemukan", response.data['data'])
+                            const query = `tanggalAwal=${tanggalAwal}&tanggalAkhir=${tanggalAkhir}`;
+                            window.location.href = "/admin/laporan/laporan-harian/hasil-data?" + query;
                         }
-                    })
-        const query = `noAhass=${noAhass}&tanggalAwal=${tanggalAwal}&tanggalAkhir=${tanggalAkhir}`;
-        window.location.href = "/admin/laporan/laporan-harian/hasil-data?" + query;
+                    }
+                )
+            }
+            else {
+                Axios.get(`https://backend-fix.glitch.me/laporan/getlaporanharian/${noAhass}/${tanggalAwal}/${tanggalAkhir}`,{
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    }
+                    }).then((response) => {
+                        if (response.data['data'].length === 0) {
+                            alert("Data tidak ditemukan");
+                        }
+                        else {
+                            alert("data ditemukan", response.data['data'])
+                            const query = `noAhass=${noAhass}&tanggalAwal=${tanggalAwal}&tanggalAkhir=${tanggalAkhir}`;
+                            window.location.href = "/admin/laporan/laporan-harian/hasil-data?" + query;
+                        }
+                    }
+                )
+            }
         }
     }
 
@@ -83,6 +109,7 @@ function LaporanHarianAdmin () {
                         <FormLabel>No. AHASS*</FormLabel>
                         <FormSelect onChange={autofill_nama_ahass}>
                             <option>Pilih AHASS</option>
+                            <option value="all">Semua AHASS</option>
                             { 
                                 ahass.map((item, index) => {
                                     return(
@@ -133,7 +160,7 @@ function LaporanHarianAdmin () {
                     <Col md={10}>
                         <Button 
                         className="button-harian sm mx-auto w-100 mb-2" 
-                        style={{backgroundColor:"#820000", border:"none"}}
+                        style={{backgroundColor:"#C71C15"}}
                         onClick={handleSubmit}
                         >Cari Data</Button>
                     </Col>

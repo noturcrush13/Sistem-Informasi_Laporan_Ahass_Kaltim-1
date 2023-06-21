@@ -43,7 +43,7 @@ function DaftarAdmin () {
     const token = localStorage.getItem("token");
 
     useEffect(() => {
-        Axios.get("http://localhost:3001/admin/", {
+        Axios.get("https://backend-fix.glitch.me/admin/", {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
@@ -110,7 +110,7 @@ function DaftarAdmin () {
         } else if (!checkPassword()) {
             alert("Password tidak sama");
         } else {
-            Axios.post(`http://localhost:3001/admin/edit/${idUser}`, data, {
+            Axios.post(`https://backend-fix.glitch.me/admin/edit/${idUser}`, data, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                 }
@@ -125,7 +125,7 @@ function DaftarAdmin () {
     }
 
     const deleteUser = (id) => {
-        Axios.delete(`http://localhost:3001/admin/delete/${id}`, {
+        Axios.delete(`https://backend-fix.glitch.me/admin/delete/${id}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
@@ -207,7 +207,7 @@ function DaftarAdmin () {
     };
 
     useEffect(() => {
-        Axios.get(`http://localhost:3001/admin/${idUser}`, {
+        Axios.get(`https://backend-fix.glitch.me/admin/${idUser}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }

@@ -55,7 +55,7 @@ function TampilLaporanTahunTahunSayaUser(){
     const convertIdDealerToNamaDealer = async (idDealer) => {
         try {
           const response = await Axios.get(
-            `http://localhost:3001/dealer/getdealername/${idDealer}`,
+            `https://backend-fix.glitch.me/dealer/getdealername/${idDealer}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -71,7 +71,7 @@ function TampilLaporanTahunTahunSayaUser(){
     
 
     useEffect(() => {
-        Axios.get(`http://localhost:3001/laporan/getlaporantahunansaya/${id_user}/${dataTahun}`, {
+        Axios.get(`https://backend-fix.glitch.me/laporan/getlaporantahunansaya/${id_user}/${dataTahun}`, {
           headers: {
             "Authorization": `Bearer ${token}`,
           },
@@ -94,9 +94,7 @@ function TampilLaporanTahunTahunSayaUser(){
                 console.error('Failed to update laporan with dealer name', error);
               });
           })
-          .catch((error) => {
-            console.error('Failed to fetch laporan data', error);
-          });
+          
       }, []);
       
 

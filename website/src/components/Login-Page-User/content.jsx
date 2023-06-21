@@ -34,7 +34,7 @@ function Content() {
             alert("Username tidak boleh kosong!");
         }
         else {
-            Axios.post("https://9296-2001-448a-6000-9bd-31d5-c2a3-b2c2-a839.ngrok-free.app/user/login", {
+            Axios.post("https://backend-fix.glitch.me/user/login", {
                 username: username,
                 password: password,
             }).then((response) => {
@@ -44,9 +44,9 @@ function Content() {
                     alert("Selamat Datang " + username);
                     navigate("/user/dashboard");
                 }
-                else {
-                    alert(response.data.message);
-                }
+            }).catch((error) => {
+                console.log(error);
+                alert(error.response.data.error.message);
             });
         }
     }

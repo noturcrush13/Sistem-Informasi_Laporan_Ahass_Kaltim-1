@@ -159,7 +159,7 @@ function DaftarDealerAdmin () {
     }
 
     useEffect(() => {
-        Axios.get("http://localhost:3001/dealer/",{
+        Axios.get("https://backend-fix.glitch.me/dealer/",{
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
@@ -211,7 +211,7 @@ function DaftarDealerAdmin () {
         if (checkFormEmpty()) {
             alert("Data tidak boleh kosong")
         } else {
-            Axios.post(`http://localhost:3001/dealer/edit/${idDealer}`, data, 
+            Axios.post(`https://backend-fix.glitch.me/dealer/edit/${idDealer}`, data, 
             {
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -228,7 +228,7 @@ function DaftarDealerAdmin () {
     }
 
     const deleteDealer = (id) => {
-        Axios.delete(`http://localhost:3001/dealer/delete/${id}`,
+        Axios.delete(`https://backend-fix.glitch.me/dealer/delete/${id}`,
         {
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -324,7 +324,7 @@ function DaftarDealerAdmin () {
     };
 
     useEffect(() => {
-        Axios.get(`http://localhost:3001/dealer/${idDealer}`,{
+        Axios.get(`https://backend-fix.glitch.me/dealer/${idDealer}`,{
             headers: {
                 "Authorization": `Bearer ${token}`,
             }

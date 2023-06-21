@@ -156,7 +156,7 @@ function TampilLaporanHarianAdmin(){
                     <td>
                          No Dealer : {item.id_dealer}
                         <br/>
-                        Nama Dealer : {namaDealer}
+                        Nama Dealer : {item.namaDealer}
                     </td>
                     <td>
                         Mekanik : {item.total_mekanik}
@@ -202,6 +202,13 @@ function TampilLaporanHarianAdmin(){
                     </td>
                     <td>{item.tanggal}</td>
                     <td>
+                        Pendapatan Jasa : {item.pendapatan_jasa}
+                        <br/>
+                        Penjualan Part : {item.penjualan_part}
+                        <br/>
+                        Penjualan Oli : {item.penjualan_oli}
+                    </td>
+                    <td>
                         <MDBBtn 
                         className="custom-button me-2" 
                         color='primary' 
@@ -222,7 +229,7 @@ function TampilLaporanHarianAdmin(){
 
     const deleteLaporan = (id) => {
         console.log(id)
-        Axios.delete(`http://localhost:3001/laporan/delete/${id}`, {
+        Axios.delete(`https://backend-fix.glitch.me/laporan/delete/${id}`, {
             headers : {
                 "Authorization" : `Bearer ${token}`,
             }
@@ -264,7 +271,7 @@ function TampilLaporanHarianAdmin(){
             penjualan_oli: penjualanOli,
         }
         if(isEmpty(e)) {
-            Axios.post(`http://localhost:3001/laporan/update/${id_laporan}`, data, {
+            Axios.post(`https://backend-fix.glitch.me/laporan/update/${id_laporan}`, data, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                 }
@@ -280,7 +287,7 @@ function TampilLaporanHarianAdmin(){
     }
 
     useEffect(() => {
-        Axios.get(`http://localhost:3001/dealer/getdealername/${noAhass}`, {
+        Axios.get(`https://backend-fix.glitch.me/dealer/getdealername/${noAhass}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
@@ -289,19 +296,77 @@ function TampilLaporanHarianAdmin(){
         })
     }, [])
 
+    const convertIdDealerToNamaDealer = async (idDealer) => {
+        try {
+          const response = await Axios.get(
+            `https://backend-fix.glitch.me/dealer/getdealername/${idDealer}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          return response.data.data[0].Nama_Ahass;
+        } catch (error) {
+          console.error(error);
+          throw new Error('Failed to convert ID dealer to dealer name.');
+        }
+    };
+
 
     useEffect(() => {
-        Axios.get(`http://localhost:3001/laporan/getlaporanharian/${noAhass}/${tanggalAwal}/${tanggalAkhir}`, {
+        if(noAhass == null) {
+            Axios.get(`https://backend-fix.glitch.me/laporan/getlaporanharian/${tanggalAwal}/${tanggalAkhir}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
-        }).then((response) => {
-            setLaporan(response.data.data);
-        })
+            }).then((response) => {
+                const laporanData = response.data.data;
+                const updatedLaporan = laporanData.map(async (item) => {
+                const namaDealer = await convertIdDealerToNamaDealer(item.id_dealer);
+                return {
+                    ...item,
+                    namaDealer: namaDealer,
+                };
+            });
+      
+            Promise.all(updatedLaporan)
+              .then((updatedLaporanWithDealerName) => {
+                setLaporan(updatedLaporanWithDealerName);
+              })
+              .catch((error) => {
+                console.error('Failed to update laporan with dealer name', error);
+              });
+            })
+        }
+        else {
+            Axios.get(`https://backend-fix.glitch.me/laporan/getlaporanharian/${noAhass}/${tanggalAwal}/${tanggalAkhir}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            }
+            }).then((response) => {
+                const laporanData = response.data.data;
+            const updatedLaporan = laporanData.map(async (item) => {
+              const namaDealer = await convertIdDealerToNamaDealer(item.id_dealer);
+              return {
+                ...item,
+                namaDealer: namaDealer,
+              };
+            });
+      
+            Promise.all(updatedLaporan)
+              .then((updatedLaporanWithDealerName) => {
+                setLaporan(updatedLaporanWithDealerName);
+              })
+              .catch((error) => {
+                console.error('Failed to update laporan with dealer name', error);
+              });
+            })
+        }
     }, [])
 
     useEffect(() => {
-        Axios.get(`http://localhost:3001/laporan/${id_laporan}`, {
+        Axios.get(`https://backend-fix.glitch.me/laporan/${id_laporan}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
@@ -344,6 +409,7 @@ function TampilLaporanHarianAdmin(){
                         <th scope='col'>AHASS Info</th>
                         <th scope='col'>Unit Info I</th>
                         <th scope='col'>Unit Info II</th>
+                        <th scope='col'>Pendapatan</th>
                         <th scope='col'>Dibuat Pada</th>
                         <th scope='col'>Opsi</th>
                     </tr>

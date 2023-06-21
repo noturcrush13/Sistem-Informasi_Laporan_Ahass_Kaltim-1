@@ -51,7 +51,7 @@ function BuatAdmin () {
             nama_belakang: nama_belakang
         }
         if (isEmpty(e) && konfirmasiPassword(e)) {
-            Axios.post("http://localhost:3001/admin/register", data,
+            Axios.post("https://backend-fix.glitch.me/admin/register", data,
             {
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -137,7 +137,7 @@ function BuatAdmin () {
                     <Col md={10}>
                         <Button 
                         className="button-dealer sm mx-auto w-100 mb-2" 
-                        style={{backgroundColor:"#820000", border:"none"}}
+                        style={{backgroundColor:"#C71C15"}}
                         onClick={(e) => handleSubmit(e)}
                         >Tambah Admin</Button>
                     </Col>

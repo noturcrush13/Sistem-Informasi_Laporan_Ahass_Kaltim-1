@@ -48,7 +48,7 @@ function RankingTahunanTahunAdmin () {
 
     const handleSubmit = (e) => {
         if(isEmpty(e)) {
-            Axios.get(`http://localhost:3001/laporan/rankingtahunanbytahun/${dataTahun}`, {
+            Axios.get(`https://backend-fix.glitch.me/laporan/rankingtahunanbytahun/${dataTahun}`, {
                 headers: {
                     "Authorization" : `Bearer ${token}`
                 }
@@ -84,7 +84,7 @@ function RankingTahunanTahunAdmin () {
                     <Col md={10}>
                         <Button onClick={handleSubmit} 
                         className="button-ranking sm mx-auto w-100 mb-2" 
-                        style={{backgroundColor:"#820000", border:"none"}}
+                        style={{backgroundColor:"#C71C15"}}
                         >Cari Data</Button>
                     </Col>
                 </Row>

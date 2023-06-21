@@ -107,7 +107,7 @@ function TampilRankingBulananKabupatenAdmin(){
     const convertIdDealerToNamaDealer = async (idDealer) => {
         try {
           const response = await Axios.get(
-            `http://localhost:3001/dealer/getdealername/${idDealer}`,
+            `https://backend-fix.glitch.me/dealer/getdealername/${idDealer}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -122,7 +122,7 @@ function TampilRankingBulananKabupatenAdmin(){
     };
 
     useEffect(() => {
-        Axios.get(`http://localhost:3001/laporan/rankingbulananbykabupaten/${dataBulan}/${dataTahun}/${dataKabupaten}`, {
+        Axios.get(`https://backend-fix.glitch.me/laporan/rankingbulananbykabupaten/${dataBulan}/${dataTahun}/${dataKabupaten}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
             },

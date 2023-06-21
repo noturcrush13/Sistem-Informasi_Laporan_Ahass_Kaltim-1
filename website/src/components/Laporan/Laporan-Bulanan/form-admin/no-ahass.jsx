@@ -89,7 +89,7 @@ function LaporanBulananNoAhassAdmin () {
     const token = localStorage.getItem("token");
 
     useEffect(() => {
-        Axios.get("http://localhost:3001/dealer", {
+        Axios.get("https://backend-fix.glitch.me/dealer", {
             headers: {
                 "Authorization" : `Bearer ${token}`
             }
@@ -129,7 +129,7 @@ function LaporanBulananNoAhassAdmin () {
 
     const handleSubmit = (e) => {
         if(isEmpty(e)) {
-            Axios.get(`http://localhost:3001/laporan/getlaporanbulanan/${noAhass}/${dataBulan}/${dataTahun}`, {
+            Axios.get(`https://backend-fix.glitch.me/laporan/getlaporanbulanan/${noAhass}/${dataBulan}/${dataTahun}`, {
                 headers: {
                     "Authorization" : `Bearer ${token}`
                 }
@@ -142,7 +142,6 @@ function LaporanBulananNoAhassAdmin () {
                 }
             })
             const query = `noAhass=${noAhass}&dataBulan=${dataBulan}&dataTahun=${dataTahun}`;
-            alert (query);
             window.location.href = `/admin/laporan/laporan-bulanan/no-ahass/hasil-data/?`+ query; 
         }
     }
@@ -199,7 +198,7 @@ function LaporanBulananNoAhassAdmin () {
                     <Col md={10}>
                         <Button 
                         className="button-harian sm mx-auto w-100 mb-2" 
-                        style={{backgroundColor:"#820000", border:"none"}}
+                        style={{backgroundColor:"#C71C15"}}
                         onClick={handleSubmit}
                         >Cari Data</Button>
                     </Col>

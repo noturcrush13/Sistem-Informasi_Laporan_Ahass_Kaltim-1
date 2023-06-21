@@ -2,7 +2,7 @@ import React from "react";
 
 import {Container, Row, Col, Image, Link} from "react-bootstrap";
 
-import DashboardContent from "../../../components/Dashboard/content";
+import DashboardUserContent from "../../../components/Dashboard/user-content";
 
 import SidebarUser from "../../../components/sidebar-user/content";
 
@@ -14,7 +14,7 @@ function DashboardPageUser() {
                     <SidebarUser />
                 </Col>
                 <Col md={10}>
-                    <DashboardContent />
+                    <DashboardUserContent />
                 </Col>
             </Row>
         </div>

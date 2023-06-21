@@ -23,7 +23,7 @@ import {
 import './dashboard.css';
 import { Container } from "react-bootstrap";
 
-function DashboardContent () {
+function DashboardUserContent () {
     const [activeTab, setActiveTab] = useState('1');
     
     const handleBasicClick = (value) => {
@@ -33,21 +33,33 @@ function DashboardContent () {
         setActiveTab(value);
     }
     const token = localStorage.getItem("token");
+    const noAhass = localStorage.getItem("id_user");
 
     const currentMonth = new Date().getMonth() + 1;
     const currentYear = new Date().getFullYear();
 
     const [laporan, setLaporan] = useState([]);
+    const [namaDealer, setNamaDealer] = useState('');
 
     useEffect(() => {
-        Axios.get(`https://backend-fix.glitch.me/laporan/getlaporanbulanansemua/${currentMonth}/${currentYear}`, {
+        Axios.get(`https://backend-fix.glitch.me/dealer/getdealername/${noAhass}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            }
+        }).then((response) => {
+            setNamaDealer(response.data.data[0].Nama_Ahass);
+        })
+    }, [])
+
+    useEffect(() => {
+        Axios.get(`https://backend-fix.glitch.me/laporan/getlaporanbulanandashboard/${noAhass}/${currentMonth}/${currentYear}`, {
             headers: {
                 "Authorization" : `Bearer ${token}`,
             },
         }).then((response) => {
             setLaporan(response.data.data);
         });
-    }, {currentMonth, currentYear})
+    }, {currentMonth, currentYear, noAhass})
 
     const formatDataForGraph = () => {
         return laporan.map((item) => ({
@@ -151,6 +163,8 @@ function DashboardContent () {
     return (
         <div >
             <p className="dashboard-title" style={{paddingLeft:"1%"}}>Dashboard</p>
+            <p className="subtitle ms-3"> {namaDealer} - No Ahass : {noAhass}</p>
+            <hr className="underline-subtitle ms-3"/>
             <MDBTabs className='mb-3 underline-tabs'>
                 <MDBTabsItem>
                     <MDBTabsLink onClick={() => handleBasicClick('tab1')} active={activeTab === 'tab1'}>
@@ -206,4 +220,4 @@ function DashboardContent () {
     )
 }
 
-export default DashboardContent;
+export default DashboardUserContent;

@@ -106,7 +106,7 @@ function LaporanBulananBulanSayaUser () {
 
     const handleSubmit = (e) => {
         if(isEmpty(e)) {
-            Axios.get(`https://9296-2001-448a-6000-9bd-31d5-c2a3-b2c2-a839.ngrok-free.app/laporan/getlaporanbulanansaya/${id_user}/${dataBulan}/${dataTahun}`, {
+            Axios.get(`https://backend-fix.glitch.me/laporan/getlaporanbulanansaya/${id_user}/${dataBulan}/${dataTahun}`, {
                 headers: {
                     "Authorization" : `Bearer ${token}`
                 }
@@ -153,7 +153,7 @@ function LaporanBulananBulanSayaUser () {
                     <Col md={10}>
                         <Button 
                         className="button-harian sm mx-auto w-100 mb-2" 
-                        style={{backgroundColor:"#820000", border:"none"}}
+                        style={{backgroundColor:"#C71C15"}}
                         onClick={handleSubmit}
                         >Cari Data</Button>
                     </Col>

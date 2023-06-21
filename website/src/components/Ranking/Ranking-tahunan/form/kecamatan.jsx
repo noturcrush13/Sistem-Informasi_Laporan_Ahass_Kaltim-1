@@ -172,7 +172,7 @@ function RankingTahunanKecamatanAdmin () {
 
     const handleSubmit = (e) => {
         if(isEmpty(e)){
-            Axios.get(`http://localhost:3001/laporan/rankingtahunanbykecamatan/${dataTahun}/${dataKecamatan}`, {
+            Axios.get(`https://backend-fix.glitch.me/laporan/rankingtahunanbykecamatan/${dataTahun}/${dataKecamatan}`, {
                 headers: {
                    "Authorization": `Bearer ${token}`
                 }
@@ -229,7 +229,7 @@ function RankingTahunanKecamatanAdmin () {
                     <Col md={10}>
                         <Button onClick={handleSubmit} 
                         className="button-harian sm mx-auto w-100 mb-2" 
-                        style={{backgroundColor:"#820000", border:"none"}}
+                        style={{backgroundColor:"#C71C15"}}
                         >Cari Data</Button>
                     </Col>
                 </Row>

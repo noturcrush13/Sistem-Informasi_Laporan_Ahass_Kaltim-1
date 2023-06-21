@@ -115,7 +115,7 @@ const exportToCSV = (csvData, fileName) => {
     const convertIdDealerToNamaDealer = async (idDealer) => {
         try {
           const response = await Axios.get(
-            `http://localhost:3001/dealer/getdealername/${idDealer}`,
+            `https://backend-fix.glitch.me/dealer/getdealername/${idDealer}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -131,7 +131,7 @@ const exportToCSV = (csvData, fileName) => {
     
 
     useEffect(() => {
-        Axios.get(`http://localhost:3001/laporan/rankingbulananbybulan/${dataBulan}/${dataTahun}`, {
+        Axios.get(`https://backend-fix.glitch.me/laporan/rankingbulananbybulan/${dataBulan}/${dataTahun}`, {
           headers: {
             "Authorization": `Bearer ${token}`,
           },

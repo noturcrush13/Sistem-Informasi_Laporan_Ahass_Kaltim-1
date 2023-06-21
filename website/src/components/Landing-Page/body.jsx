@@ -26,7 +26,7 @@ const Body = (props) => {
                     </Col>
                     <Col md={12} className="">
                         <button onClick={() => navigate("/admin/login")} className="btn btn-secondary button">Login Sebagai Admin</button>
-                        <button onClick={() => navigate("/user/login")} className="btn btn-secondary button" style={{color:"#820000", backgroundColor:"white", border:"1px solid #820000"}}>Login Sebagai User</button>
+                        <button onClick={() => navigate("/user/login")} className="btn btn-secondary button" style={{color:"#C71C15", backgroundColor:"white", border:"1px solid #820000"}}>Login Sebagai User</button>
                     </Col>
                 </Col>
                 <Col md={6} className="image">
