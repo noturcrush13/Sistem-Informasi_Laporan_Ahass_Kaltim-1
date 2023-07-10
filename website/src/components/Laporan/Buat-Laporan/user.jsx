@@ -136,11 +136,6 @@ function BuatLaporanUser () {
 
     return (
         <div >
-            {/* <Container>
-                <p className="laporan-title">Laporan</p>
-                <p className="laporan-subtitle">Buat Laporan Harian Baru</p>
-                <hr className="underline-subtitle"/>
-            </Container> */}
             <SubTitleComponent title="Laporan" subtitle="Buat Laporan Harian Baru"/>
             <Container fluid>
             <Row className="d-flex justify-content-center align-items-center mt-3">

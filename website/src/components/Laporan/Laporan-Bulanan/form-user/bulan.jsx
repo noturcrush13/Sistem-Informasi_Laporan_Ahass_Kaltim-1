@@ -142,7 +142,6 @@ function LaporanBulananBulanUser () {
                 }
             })
             const query = `noAhass=${noAhass}&dataBulan=${dataBulan}&dataTahun=${dataTahun}`;
-            alert (query);
             window.location.href = `/user/laporan/laporan-bulanan/no-ahass/hasil-data/?`+ query; 
         }
     }

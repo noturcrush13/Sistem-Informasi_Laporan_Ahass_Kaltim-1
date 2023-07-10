@@ -86,6 +86,57 @@ function TampilLaporanBulananNoAHASSUser(){
         FileSaver.saveAs(data, fileName + fileextension);
     }
 
+    const formatDataUnitEntry = () => {
+        return laporan.map((item) => ({
+            tanggal: moment(item.tanggal).format('DD'),
+            ue: item.unit_entry,
+        }));
+    };
+
+    const formatDataPekerjaan = () => {
+        return laporan.map((item) => ({
+            KPB_1: item.KPB_1,
+            KPB_2: item.KPB_2,
+            KPB_3: item.KPB_3,
+            KPB_4: item.KPB_4,
+            claim: item.claim,
+            service_lengkap: item.service_lengkap,
+            service_ringan: item.service_ringan,
+            ganti_oli: item.ganti_oli,
+            light_repair: item.light_repair,
+            heavy_repair: item.heavy_repair,
+            job_return: item.job_return,
+            jumlah_ue_by_service_visit: item.jumlah_ue_by_service_visit,
+            jumlah_ue_by_pit_express: item.jumlah_ue_by_pit_express,
+            ue_by_reminder: item.ue_by_reminder,
+            ue_by_ahass_event: item.ue_by_ahass_event,
+            ue_by_engine_flush: item.ue_by_engine_flush,
+            ue_by_injector_cleaner: item.ue_by_injector_cleaner,
+        }));
+    };
+
+    const pekerjaanData = formatDataPekerjaan();
+
+    const pieData = [
+        { name: 'KPB 1', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.KPB_1), 0) },
+        { name: 'KPB 2', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.KPB_2), 0) },
+        { name: 'KPB 3', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.KPB_3), 0) },
+        { name: 'KPB 4', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.KPB_4), 0) },
+        { name: 'Claim', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.claim), 0) },
+        { name: 'Service Lengkap', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.service_lengkap), 0) },
+        { name: 'Service Ringan', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.service_ringan), 0) },
+        { name: 'Ganti Oli', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.ganti_oli), 0) },
+        { name: 'Light Repair', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.light_repair), 0) },
+        { name: 'Heavy Repair', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.heavy_repair), 0) },
+        { name: 'Job Return', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.job_return), 0) },
+        { name: 'Jumlah UE by Service Visit', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.jumlah_ue_by_service_visit), 0) },
+        { name: 'Jumlah UE by Pit Express', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.jumlah_ue_by_pit_express), 0) },
+        { name: 'UE by Reminder', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.ue_by_reminder), 0) },
+        { name: 'UE by AHASS Event', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.ue_by_ahass_event), 0) },
+        { name: 'UE by Engine Flush', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.ue_by_engine_flush), 0) },
+        { name: 'UE by Injector Cleaner', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.ue_by_injector_cleaner), 0) },
+    ];
+
 
     useEffect(() => {
         Axios.get(`https://backend-fix.glitch.me/dealer/getdealername/${noAhass}`, {
@@ -129,9 +180,35 @@ function TampilLaporanBulananNoAHASSUser(){
     return (
         <div >
             <SubTitleComponent title="Laporan" subtitle="Laporan Bulanan"/>
+            <p className="subtitle ms-3"> {namaDealer} - No Ahass : {noAhass}</p>
+            <MDBTabs className='mb-3 underline-tabs'>
+                <MDBTabsItem>
+                    <MDBTabsLink onClick={() => handleBasicClick('tab1')} active={activeTab === 'tab1'}>
+                        Unit Entry
+                    </MDBTabsLink>
+                    </MDBTabsItem>
+                <MDBTabsItem>
+                    <MDBTabsLink onClick={() => handleBasicClick('tab2')} active={activeTab === 'tab2'}>
+                        Pekerjaan 
+                    </MDBTabsLink>
+                </MDBTabsItem>
+            </MDBTabs>
+            <MDBTabsContent>
+                <MDBTabsPane show={activeTab === 'tab1'}>
+                    <Container className="d-flex justify-content-center">
+                        <h3>Bar Chart Unit Entry</h3>
+                    </Container>
+                    <LineRechartComponent data={formatDataUnitEntry()} />
+                </MDBTabsPane>
+                <MDBTabsPane show={activeTab === 'tab2'}>
+                    <Container className="d-flex justify-content-center">
+                        <h3>Pie Chart Pekerjaan</h3>
+                    </Container>
+                    <PieRechartComponent data={pieData} />
+                </MDBTabsPane>
+            </MDBTabsContent>
             <Row className="d-flex justify-content-start">
                 <Col md={12} className="d-flex justify-content-start">
-                    
                     <MDBBtn 
                         className="ms-2"
                         color='success' 

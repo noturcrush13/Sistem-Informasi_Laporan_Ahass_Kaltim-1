@@ -167,7 +167,7 @@ function DashboardContent () {
                 </MDBTabsItem>
                 <MDBTabsItem>
                     <MDBTabsLink onClick={() => handleBasicClick('tab3')} active={activeTab === 'tab3'}>
-                        Pendapatan(BAR)
+                        Pendapatan(LINE)
                     </MDBTabsLink>
                 </MDBTabsItem>
                 <MDBTabsItem>
@@ -179,7 +179,7 @@ function DashboardContent () {
             <MDBTabsContent>
                 <MDBTabsPane show={activeTab === 'tab1'}>
                     <Container className="d-flex justify-content-center">
-                        <h3>Bar Chart Unit Entry Bulan {convert(currentMonth)}</h3>
+                        <h3>Line Chart Unit Entry Bulan {convert(currentMonth)}</h3>
                     </Container>
                     <LineRechartComponent data={formatDataForGraph()} />
                 </MDBTabsPane>
@@ -191,7 +191,7 @@ function DashboardContent () {
                 </MDBTabsPane>
                 <MDBTabsPane show={activeTab === 'tab3'}>
                     <Container className="d-flex justify-content-center">
-                        <h3>Bar Chart Pendapatan Bulan {convert(currentMonth)}</h3>
+                        <h3>Line Chart Pendapatan Bulan {convert(currentMonth)}</h3>
                     </Container>
                     <LiceRechartPendapatanComponent data={formatDataForPendapatan()} />
                 </MDBTabsPane>

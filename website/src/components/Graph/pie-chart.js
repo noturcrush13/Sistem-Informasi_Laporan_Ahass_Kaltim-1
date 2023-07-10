@@ -31,7 +31,7 @@ class PieRechartComponent extends React.Component {
           return (
             <div className="custom-tooltip" style={{ backgroundColor: '#fff', padding: '5px', border: '1px solid #ccc' }}>
               <p>{`${data.name}`}</p>
-              <p>{`Value: Rp.${data.value}`}</p>
+              <p>{`Value: ${data.value}`}</p>
             </div>
           );
         }
