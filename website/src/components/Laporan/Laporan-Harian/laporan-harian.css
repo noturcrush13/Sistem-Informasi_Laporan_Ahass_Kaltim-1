@@ -12,3 +12,11 @@
     height: 3rem;
     font-weight:bold;
 }
+
+.custom-button {
+    padding: 5px 10px;
+    font-size: 12px;
+    max-height: 30px;
+    max-width: 50px;
+    /* Atur ukuran dan gaya lainnya sesuai kebutuhan Anda */
+}

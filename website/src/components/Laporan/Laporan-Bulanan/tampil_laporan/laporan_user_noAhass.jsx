@@ -1,0 +1,227 @@
+import React, { useState, useEffect } from "react";
+
+import { useLocation } from 'react-router-dom';
+
+import {Container, Row, Col, Image, Link} from "react-bootstrap";
+
+import moment from "moment";
+
+import { Pagination } from "react-bootstrap";
+
+import * as FileSaver from 'file-saver';
+
+import * as XLSX from 'xlsx';
+
+import Axios from "axios";
+
+import LineRechartComponent from "../../../Graph/bar-chart";
+
+import PieRechartComponent from "../../../Graph/pie-chart";
+
+import LiceRechartPendapatanComponent from "../../../Graph/bar-chart-pendapatan";
+
+import { 
+    MDBBadge, 
+    MDBBtn, 
+    MDBTable, 
+    MDBTableHead, 
+    MDBTableBody, 
+    MDBTabs,
+    MDBTabsItem,
+    MDBTabsLink,
+    MDBTabsContent,
+    MDBTabsPane, } from 'mdb-react-ui-kit';
+
+import SubTitleComponent from "../../../Sub-Title/Sub-Title";
+
+import "../laporan-bulanan.css";
+
+
+function TampilLaporanBulananNoAHASSUser(){
+    const [activeTab, setActiveTab] = useState('1');
+    
+    const handleBasicClick = (value) => {
+        if (value == activeTab) {
+          return;
+        }
+        setActiveTab(value);
+    };
+
+    const location = useLocation();
+    const [params, setParams] = useState(null);
+
+    const filetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+
+    const fileextension = '.xlsx';
+
+    const useQuery = () => {
+        return new URLSearchParams(useLocation().search);
+    }
+
+    const searchParams = useQuery();
+
+    // consolelog all params in useQuery
+    // for (let param of searchParams.entries()) {
+    //     console.log(param);
+    // }
+
+    const noAhass = searchParams.get('noAhass');
+    const dataBulan = searchParams.get('dataBulan');
+    const dataTahun = searchParams.get('dataTahun');
+
+    const [namaDealer, setNamaDealer] = useState('')
+
+    const [laporan, setLaporan] = useState([]);
+
+    const token = localStorage.getItem("token");
+
+    
+    const exportToCSV = (csvData, fileName) => {
+        const filteredData = csvData.map(({ _id, penjualan_part, pendapatan_jasa, penjualan_oli,__v,  ...rest }) => rest);
+        // const filteredData = csvData.map(({ _id, __v,  ...rest }) => rest);
+        const ws = XLSX.utils.json_to_sheet(filteredData);
+        const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], {type: filetype});
+        FileSaver.saveAs(data, fileName + fileextension);
+    }
+
+    const formatDataUnitEntry = () => {
+        return laporan.map((item) => ({
+            tanggal: moment(item.tanggal).format('DD'),
+            ue: item.unit_entry,
+        }));
+    };
+
+    const formatDataPekerjaan = () => {
+        return laporan.map((item) => ({
+            KPB_1: item.KPB_1,
+            KPB_2: item.KPB_2,
+            KPB_3: item.KPB_3,
+            KPB_4: item.KPB_4,
+            claim: item.claim,
+            service_lengkap: item.service_lengkap,
+            service_ringan: item.service_ringan,
+            ganti_oli: item.ganti_oli,
+            light_repair: item.light_repair,
+            heavy_repair: item.heavy_repair,
+            job_return: item.job_return,
+            jumlah_ue_by_service_visit: item.jumlah_ue_by_service_visit,
+            jumlah_ue_by_pit_express: item.jumlah_ue_by_pit_express,
+            ue_by_reminder: item.ue_by_reminder,
+            ue_by_ahass_event: item.ue_by_ahass_event,
+            ue_by_engine_flush: item.ue_by_engine_flush,
+            ue_by_injector_cleaner: item.ue_by_injector_cleaner,
+        }));
+    };
+
+    const pekerjaanData = formatDataPekerjaan();
+
+    const pieData = [
+        { name: 'KPB 1', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.KPB_1), 0) },
+        { name: 'KPB 2', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.KPB_2), 0) },
+        { name: 'KPB 3', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.KPB_3), 0) },
+        { name: 'KPB 4', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.KPB_4), 0) },
+        { name: 'Claim', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.claim), 0) },
+        { name: 'Service Lengkap', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.service_lengkap), 0) },
+        { name: 'Service Ringan', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.service_ringan), 0) },
+        { name: 'Ganti Oli', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.ganti_oli), 0) },
+        { name: 'Light Repair', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.light_repair), 0) },
+        { name: 'Heavy Repair', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.heavy_repair), 0) },
+        { name: 'Job Return', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.job_return), 0) },
+        { name: 'Jumlah UE by Service Visit', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.jumlah_ue_by_service_visit), 0) },
+        { name: 'Jumlah UE by Pit Express', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.jumlah_ue_by_pit_express), 0) },
+        { name: 'UE by Reminder', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.ue_by_reminder), 0) },
+        { name: 'UE by AHASS Event', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.ue_by_ahass_event), 0) },
+        { name: 'UE by Engine Flush', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.ue_by_engine_flush), 0) },
+        { name: 'UE by Injector Cleaner', value: pekerjaanData.reduce((sum, item) => sum + parseInt(item.ue_by_injector_cleaner), 0) },
+    ];
+
+
+    useEffect(() => {
+        Axios.get(`https://backend-fix.glitch.me/dealer/getdealername/${noAhass}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            }
+        }).then((response) => {
+            // console.log("nama dealer",response.data);
+            setNamaDealer(response.data.data[0].Nama_Ahass);
+        })
+    }, [])
+
+    useEffect(() => {
+        Axios.get(`https://backend-fix.glitch.me/laporan/getlaporanbulanan/${noAhass}/${dataBulan}/${dataTahun}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            }
+        }).then((response) => {
+            setLaporan(response.data.data);
+            // console.log(response.data.data);
+        })
+    }, [])
+
+    const data = laporan.reduce((result, item) => {
+        const date = new Date(item.tanggal);
+        const tanggal_data = date.getDate();
+        const bulan_data = date.getMonth() + 1;
+      
+        result.push({
+          name: `${tanggal_data}/${bulan_data}`,
+          ue: item.unit_entry,
+          date: date
+        })
+      
+        return result;
+    }, []);
+      
+    data.sort((a, b) => a.date - b.date);
+
+
+    return (
+        <div >
+            <SubTitleComponent title="Laporan" subtitle="Laporan Bulanan"/>
+            <p className="subtitle ms-3"> {namaDealer} - No Ahass : {noAhass}</p>
+            <MDBTabs className='mb-3 underline-tabs'>
+                <MDBTabsItem>
+                    <MDBTabsLink onClick={() => handleBasicClick('tab1')} active={activeTab === 'tab1'}>
+                        Unit Entry
+                    </MDBTabsLink>
+                    </MDBTabsItem>
+                <MDBTabsItem>
+                    <MDBTabsLink onClick={() => handleBasicClick('tab2')} active={activeTab === 'tab2'}>
+                        Pekerjaan 
+                    </MDBTabsLink>
+                </MDBTabsItem>
+            </MDBTabs>
+            <MDBTabsContent>
+                <MDBTabsPane show={activeTab === 'tab1'}>
+                    <Container className="d-flex justify-content-center">
+                        <h3>Bar Chart Unit Entry</h3>
+                    </Container>
+                    <LineRechartComponent data={formatDataUnitEntry()} />
+                </MDBTabsPane>
+                <MDBTabsPane show={activeTab === 'tab2'}>
+                    <Container className="d-flex justify-content-center">
+                        <h3>Pie Chart Pekerjaan</h3>
+                    </Container>
+                    <PieRechartComponent data={pieData} />
+                </MDBTabsPane>
+            </MDBTabsContent>
+            <Row className="d-flex justify-content-start">
+                <Col md={12} className="d-flex justify-content-start">
+                    <MDBBtn 
+                        className="ms-2"
+                        color='success' 
+                        size='sm'
+                        style={{height: '2.2rem', lineHeight: '1.5rem'}}
+                        onClick={(e) => {
+                            exportToCSV(laporan, `laporan_bulanan_${dataBulan}.csv`)
+                        }}>Export Laporan
+                    </MDBBtn>
+                </Col>
+            </Row>
+        </div>
+    )           
+}
+
+export default TampilLaporanBulananNoAHASSUser;

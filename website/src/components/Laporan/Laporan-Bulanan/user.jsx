@@ -6,6 +6,8 @@ import SubTitleComponent from "../../Sub-Title/Sub-Title";
 
 import LaporanBulananBulanUser from "./form-user/bulan";
 
+import LaporanBulananBulanSayaUser from "./form-user/bulan_user";
+
 import {
     MDBTabs,
     MDBTabsItem,
@@ -49,7 +51,7 @@ function LaporanBulananUser () {
                     <LaporanBulananBulanUser />
                 </MDBTabsPane>
                 <MDBTabsPane show={activeTab === 'tab2'}>
-                    
+                    <LaporanBulananBulanSayaUser />
                 </MDBTabsPane>
 
             </MDBTabsContent>

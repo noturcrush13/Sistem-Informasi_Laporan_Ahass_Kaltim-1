@@ -11,10 +11,13 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
     "cdbreact": "^1.5.9",
     "chart.js": "^4.2.1",
+    "cors": "^2.8.5",
+    "file-saver": "^2.0.5",
     "framer-motion": "^10.2.4",
     "mdb-react-ui-kit": "^5.1.0",
     "react": "^18.2.0",
@@ -29,7 +32,9 @@
     "react-scripts": "5.0.1",
     "recharts": "^2.5.0",
     "startbootstrap-simple-sidebar": "^6.0.5",
-    "web-vitals": "^2.1.4"
+    "vercel": "^29.1.1",
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",

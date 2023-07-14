@@ -10,7 +10,7 @@ function BuatUserAdminPage () {
     return (
         <div>
             <Row>
-                <Col md={2} style={{}}>
+                <Col md={2} style={{height: '100vh'}}>
                     <SidebarAdmin />
                 </Col>
                 <Col md={10}>

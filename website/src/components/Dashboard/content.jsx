@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 
-import {Container, Row, Col, Image, Link} from "react-bootstrap";
+import moment from "moment";
 
-import { Bar } from 'react-chartjs-2';
-
-import { CDBContainer } from 'cdbreact';
+import Axios from "axios";
 
 import LineRechartComponent from "../Graph/bar-chart";
 
 import PieRechartComponent from "../Graph/pie-chart";
+
+import LiceRechartPendapatanComponent from "../Graph/bar-chart-pendapatan";
 
 import {
     MDBTabs,
@@ -20,7 +20,8 @@ import {
     MDBCol 
   } from 'mdb-react-ui-kit';
 
-import './dashboard.css'
+import './dashboard.css';
+import { Container } from "react-bootstrap";
 
 function DashboardContent () {
     const [activeTab, setActiveTab] = useState('1');
@@ -31,39 +32,119 @@ function DashboardContent () {
         }
         setActiveTab(value);
     }
+    const token = localStorage.getItem("token");
 
-    const data = [
-        { name: "Jan", ue: 2400 },
-        { name: "Feb", ue: 1398 },
-        { name: "Mar", ue: 9800 },
-        { name: "Apr", ue: 3908 },
-        { name: "May", ue: 4800 },
-        { name: "Jun", ue: 3800 },
-        { name: "Jul", ue: 4300 },
-    ];
+    const currentMonth = new Date().getMonth() + 1;
+    const currentYear = new Date().getFullYear();
+
+    const [laporan, setLaporan] = useState([]);
+
+    useEffect(() => {
+        Axios.get(`https://backend-fix.glitch.me/laporan/getlaporanbulanansemua/${currentMonth}/${currentYear}`, {
+            headers: {
+                "Authorization" : `Bearer ${token}`,
+            },
+        }).then((response) => {
+            setLaporan(response.data.data);
+        });
+    }, {currentMonth, currentYear})
+
+    const formatDataForGraph = () => {
+        return laporan.map((item) => ({
+          tanggal: item.tanggal,
+          ue: item.unit_entry,
+        }));
+    };
+
+    const formatDataForPendapatan = () => {
+        return laporan.map((item) => ({
+          tanggal: item.tanggal,
+          total_pendapatan: item.pendapatan_jasa + item.penjualan_part + item.penjualan_oli,
+        }));
+    };
+
+    const formatDataForPendapatanPie = () => {
+        return laporan.map((item) => ({
+            pendapatan_jasa : item.pendapatan_jasa,
+            penjualan_part : item.penjualan_part,
+            penjualan_oli : item.penjualan_oli,
+        }));
+    };
+
+    const pekerjaanPieData = formatDataForPendapatanPie();
+
+    const piePekerjaan = [
+        { name: 'Pendapatan Jasa', value: pekerjaanPieData.reduce((sum, item) => sum + item.pendapatan_jasa, 0) },
+        { name: 'Penjualan Part', value: pekerjaanPieData.reduce((sum, item) => sum + item.penjualan_part, 0) },
+        { name: 'Penjualan Oli', value: pekerjaanPieData.reduce((sum, item) => sum + item.penjualan_oli, 0) },
+    ]
+
+    const bulan = {
+        1 : "Januari",
+        2 : "Februari",
+        3 : "Maret",
+        4 : "April",
+        5 : "Mei",
+        6 : "Juni",
+        7 : "Juli",
+        8 : "Agustus",
+        9 : "September",
+        10 : "Oktober",
+        11 : "November",
+        12 : "Desember",
+    }
+
+    const convert = (month) => {
+        return bulan[month];
+    }
+
+    const formatDataForPekerjaan = () => {
+        return laporan.map((item) => ({
+          KPB_1: item.KPB_1,
+          KPB_2: item.KPB_2,
+          KPB_3: item.KPB_3,
+          KPB_4: item.KPB_4,
+          claim: item.claim,
+          service_lengkap: item.service_lengkap,
+          service_ringan: item.service_ringan,
+          ganti_oli: item.ganti_oli,
+          light_repair: item.light_repair,
+          heavy_repair: item.heavy_repair,
+          job_return: item.job_return,
+          jumlah_ue_by_service_visit: item.jumlah_ue_by_service_visit,
+          jumlah_ue_by_pit_express: item.jumlah_ue_by_pit_express,
+          ue_by_reminder: item.ue_by_reminder,
+          ue_by_ahass_event: item.ue_by_ahass_event,
+          ue_by_engine_flush: item.ue_by_engine_flush,
+          ue_by_injector_cleaner: item.ue_by_injector_cleaner,
+        }));
+    };
+    // console.log(data)
+    // console.log(pekerjaanData);
+
+    const pekerjaanData = formatDataForPekerjaan();
 
     const pieData = [
-        {
-            "name": "Chrome",
-            "value": 68.85
-        },
-        {
-            "name": "Firefox",
-            "value": 7.91
-        },
-        {
-            "name": "Edge",
-            "value": 6.85
-        },
-        {
-            "name": "Internet Explorer",
-            "value": 6.14
-        },
-        {
-            "name": "Others",
-            "value": 10.25
-        }
+        { name: 'KPB 1', value: pekerjaanData.reduce((sum, item) => sum + item.KPB_1, 0) },
+        { name: 'KPB 2', value: pekerjaanData.reduce((sum, item) => sum + item.KPB_2, 0) },
+        { name: 'KPB 3', value: pekerjaanData.reduce((sum, item) => sum + item.KPB_3, 0) },
+        { name: 'KPB 4', value: pekerjaanData.reduce((sum, item) => sum + item.KPB_4, 0) },
+        { name: 'Claim', value: pekerjaanData.reduce((sum, item) => sum + item.claim, 0) },
+        { name: 'Service Lengkap', value: pekerjaanData.reduce((sum, item) => sum + item.service_lengkap, 0) },
+        { name: 'Service Ringan', value: pekerjaanData.reduce((sum, item) => sum + item.service_ringan, 0) },
+        { name: 'Ganti Oli', value: pekerjaanData.reduce((sum, item) => sum + item.ganti_oli, 0) },
+        { name: 'Light Repair', value: pekerjaanData.reduce((sum, item) => sum + item.light_repair, 0) },
+        { name: 'Heavy Repair', value: pekerjaanData.reduce((sum, item) => sum + item.heavy_repair, 0) },
+        { name: 'Job Return', value: pekerjaanData.reduce((sum, item) => sum + item.job_return, 0) },
+        { name: 'Jumlah UE by Service Visit', value: pekerjaanData.reduce((sum, item) => sum + item.jumlah_ue_by_service_visit, 0) },
+        { name: 'Jumlah UE by Pit Express', value: pekerjaanData.reduce((sum, item) => sum + item.jumlah_ue_by_pit_express, 0) },
+        { name: 'UE by Reminder', value: pekerjaanData.reduce((sum, item) => sum + item.ue_by_reminder, 0) },
+        { name: 'UE by AHASS Event', value: pekerjaanData.reduce((sum, item) => sum + item.ue_by_ahass_event, 0) },
+        { name: 'UE by Engine Flush', value: pekerjaanData.reduce((sum, item) => sum + item.ue_by_engine_flush, 0) },
+        { name: 'UE by Injector Cleaner', value: pekerjaanData.reduce((sum, item) => sum + item.ue_by_injector_cleaner, 0) },
     ];
+
+      
 
     
 
@@ -77,13 +158,16 @@ function DashboardContent () {
                     </MDBTabsLink>
                     </MDBTabsItem>
                 <MDBTabsItem>
-                    <MDBTabsLink onClick={() => handleBasicClick('tab2')} active={activeTab === 'tab2'}>
+                    <MDBTabsLink 
+                    onClick={() => handleBasicClick('tab2')} 
+                    active={activeTab === 'tab2'}
+                    >
                         Pekerjaan 
                     </MDBTabsLink>
                 </MDBTabsItem>
                 <MDBTabsItem>
                     <MDBTabsLink onClick={() => handleBasicClick('tab3')} active={activeTab === 'tab3'}>
-                        Pendapatan(BAR)
+                        Pendapatan(LINE)
                     </MDBTabsLink>
                 </MDBTabsItem>
                 <MDBTabsItem>
@@ -94,14 +178,28 @@ function DashboardContent () {
             </MDBTabs>
             <MDBTabsContent>
                 <MDBTabsPane show={activeTab === 'tab1'}>
-                    <LineRechartComponent data={data} />
+                    <Container className="d-flex justify-content-center">
+                        <h3>Line Chart Unit Entry Bulan {convert(currentMonth)}</h3>
+                    </Container>
+                    <LineRechartComponent data={formatDataForGraph()} />
                 </MDBTabsPane>
                 <MDBTabsPane show={activeTab === 'tab2'}>
+                    <Container className="d-flex justify-content-center">
+                        <h3>Pie Chart Bulan {convert(currentMonth)}</h3>
+                    </Container>
                     <PieRechartComponent data={pieData} />
                 </MDBTabsPane>
-                <MDBTabsPane show={activeTab === 'tab3'}>Tab 3 content</MDBTabsPane>
+                <MDBTabsPane show={activeTab === 'tab3'}>
+                    <Container className="d-flex justify-content-center">
+                        <h3>Line Chart Pendapatan Bulan {convert(currentMonth)}</h3>
+                    </Container>
+                    <LiceRechartPendapatanComponent data={formatDataForPendapatan()} />
+                </MDBTabsPane>
                 <MDBTabsPane show={activeTab === 'tab4'}>
-                    <PieRechartComponent data={pieData} />
+                    <Container className="d-flex justify-content-center">
+                        <h3>Pie Chart Pendapatan Bulan {convert(currentMonth)}</h3>
+                    </Container>
+                    <PieRechartComponent data={piePekerjaan} />
                 </MDBTabsPane>
             </MDBTabsContent>
         </div>

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, createContext } from 'react';
+
+import Axios from "axios";
 
 import {Container, Row, Col, Image, Link, FormSelect, FormControl, FormLabel, FormGroup, InputGroup, Button} from "react-bootstrap";
 
@@ -9,47 +11,112 @@ import SubTitleComponent from "../../Sub-Title/Sub-Title";
 import "./laporan-harian.css";
 
 function LaporanHarianAdmin () {
-    const data_ahass = [ 
-        {
-            "no_ahass": "1",
-            "nama_ahass": "Ahass 1"
-        },
-        {
-            "no_ahass": "2",
-            "nama_ahass": "Ahass 2"
-        },
-        {
-            "no_ahass": "3",
-            "nama_ahass": "Ahass 3"
-        },
-        {
-            "no_ahass": "4",
-            "nama_ahass": "Ahass 4"
-        },
-        {
-            "no_ahass": "5",
-            "nama_ahass": "Ahass 5"
-        },
-    ]
+    const [ahass, setAhass] = useState([]);
+
+    const [noAhass, setNoAhass] = useState("");
+    const [namaAhass, setNamaAhass] = useState("");
+    const [tanggalAwal, setTanggalAwal] = useState("");
+    const [tanggalAkhir, setTanggalAkhir] = useState("");
+
+    const token = localStorage.getItem("token");
+
+    const getDealer = () => {
+        Axios.get("https://backend-fix.glitch.me/dealer/",{
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            }
+        }).then((response) => {
+            setAhass(response.data['data']);
+        })
+    }
 
     const autofill_nama_ahass = (e) => {
         const no_ahass = e.target.value;
-        const nama_ahass = data_ahass.find(ahass => ahass.no_ahass === no_ahass).nama_ahass;
-        document.getElementById("nama_ahass").value = nama_ahass;
+        if (no_ahass === "all") {
+            document.getElementById("nama_ahass").value = "Semua Ahass";
+            setNoAhass("all");
+            setNamaAhass("Semua Ahass");
+        }
+        else {
+            const nama_ahass = ahass.filter((item) => {
+                return item.No_Ahass === no_ahass
+            })
+            document.getElementById("nama_ahass").value = nama_ahass[0].Nama_Ahass;
+            setNoAhass(no_ahass);
+            setNamaAhass(nama_ahass[0].Nama_Ahass);
+        }
     }
 
+    const isEmpty = (e) => {
+        e.preventDefault();
+        if (noAhass === "" || namaAhass === "" || tanggalAwal === "" || tanggalAkhir === "") {
+            alert("Mohon isi semua kolom");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    const handleSubmit = (e) => {
+        if (isEmpty(e)) {
+            if (noAhass === "all") {
+                Axios.get(`https://backend-fix.glitch.me/laporan/getlaporanharian/${tanggalAwal}/${tanggalAkhir}`,{
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    }
+                    }).then((response) => {
+                        if (response.data['data'].length === 0) {
+                            alert("Data tidak ditemukan");
+                        }
+                        else {
+                            alert("data ditemukan", response.data['data'])
+                            const query = `tanggalAwal=${tanggalAwal}&tanggalAkhir=${tanggalAkhir}`;
+                            window.location.href = "/admin/laporan/laporan-harian/hasil-data?" + query;
+                        }
+                    }
+                )
+            }
+            else {
+                Axios.get(`https://backend-fix.glitch.me/laporan/getlaporanharian/${noAhass}/${tanggalAwal}/${tanggalAkhir}`,{
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    }
+                    }).then((response) => {
+                        if (response.data['data'].length === 0) {
+                            alert("Data tidak ditemukan");
+                        }
+                        else {
+                            alert("data ditemukan", response.data['data'])
+                            const query = `noAhass=${noAhass}&tanggalAwal=${tanggalAwal}&tanggalAkhir=${tanggalAkhir}`;
+                            window.location.href = "/admin/laporan/laporan-harian/hasil-data?" + query;
+                        }
+                    }
+                )
+            }
+        }
+    }
+
+                
+
     return (
+        getDealer(),
         <div >
             <SubTitleComponent title="Laporan" subtitle="Laporan Harian"/>
             <Container fluid>
                 <Row className="d-flex justify-content-center align-items-center my-2">
                     <Col md={12} className="">
                         <FormLabel>No. AHASS*</FormLabel>
-                        <FormSelect aria-label="Pilih AHASS" onChange={autofill_nama_ahass}>
+                        <FormSelect onChange={autofill_nama_ahass}>
                             <option>Pilih AHASS</option>
-                            { data_ahass.map(ahass => (
-                                <option value={ahass.no_ahass} >{ahass.no_ahass}</option>
-                            ))}
+                            <option value="all">Semua AHASS</option>
+                            { 
+                                ahass.map((item, index) => {
+                                    return(
+                                        <option value={item.No_Ahass}>{item.No_Ahass}</option>
+                                    )
+                                })
+                            }
                         </FormSelect>
                     </Col>
                 </Row>
@@ -65,7 +132,13 @@ function LaporanHarianAdmin () {
                     <Col md={12} className="">
                         <FormGroup>
                             <FormLabel>Tanggal Awal*</FormLabel>
-                            <FormControl type="date" placeholder="Tanggal" />
+                            <FormControl 
+                            type="date" 
+                            placeholder="Tanggal"
+                            onChange={(e) => {
+                                setTanggalAwal(e.target.value);
+                            }} 
+                            />
                         </FormGroup>
                     </Col>
                 </Row>
@@ -73,13 +146,23 @@ function LaporanHarianAdmin () {
                     <Col md={12} className="">
                         <FormGroup>
                             <FormLabel>Tanggal Akhir*</FormLabel>
-                            <FormControl type="date" placeholder="Tanggal" />
+                            <FormControl 
+                            type="date" 
+                            placeholder="Tanggal"
+                            onChange={(e) => {
+                                setTanggalAkhir(e.target.value);
+                            }}
+                            />
                         </FormGroup>
                     </Col>
                 </Row>
                 <Row className="d-flex justify-content-center align-items-center mt-3">
                     <Col md={10}>
-                        <Button  className="button-harian sm mx-auto w-100 mb-2" style={{backgroundColor:"#820000", border:"none"}}>Cari Data</Button>
+                        <Button 
+                        className="button-harian sm mx-auto w-100 mb-2" 
+                        style={{backgroundColor:"#C71C15"}}
+                        onClick={handleSubmit}
+                        >Cari Data</Button>
                     </Col>
                 </Row>
             </Container>
